@@ -1,0 +1,15 @@
+### Create Drone
+POST {{host}}/drones
+Content-Type: application/json
+
+{
+  "serialNumber": "1234",
+  "weightLimit": 500,
+  "state": "IDLE",
+  "model": "Lightweight",
+  "batteryCapacity": 90
+}
+
+
+### List available drones
+GET {{host}}/drones

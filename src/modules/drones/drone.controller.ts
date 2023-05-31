@@ -1,7 +1,6 @@
 import {Container, Service} from "typedi";
 import express from "express";
 import {CreateDroneDto} from "./dto/create-drone.dto";
-import {handleSimpleRoute} from "../../common/handlers/handle-route.handler";
 import {DroneService} from "./drone.service";
 
 const droneRouter = express.Router()
@@ -24,7 +23,7 @@ export class DroneController {
     }
 
     checkAvailableDrones() {
-        return {code: 'ok'}
+        return this.droneService.getAvailableDrones()
     }
 
     checkBatteryLevel() {
@@ -34,12 +33,16 @@ export class DroneController {
 
 const droneController = Container.get(DroneController)
 
-droneRouter.get('/', handleSimpleRoute(droneController.checkAvailableDrones))
+droneRouter.get('/',
+    (req, res, next) =>
+        droneController.checkAvailableDrones()
+            .then(result => res.send(result))
+            .catch(err => next(err)))
 droneRouter.post('/',
-    async (req, res) => {
-        const result = await droneController.registerDrone(req.body)
-        return res.send(result)
-    })
+    (req, res, next) =>
+        droneController.registerDrone(req.body)
+            .then(result => res.send(result))
+            .catch(err => next(err)))
 
 
 export {droneRouter}

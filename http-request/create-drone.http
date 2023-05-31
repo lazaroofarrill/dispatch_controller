@@ -1,6 +1,0 @@
-POST {{host}}/drones
-Content-Type: application/json
-
-{
-  "password": "Hello"
-}
