@@ -1,7 +1,7 @@
-import {Medicine} from "../models/medicine.schema";
+import {Medicament} from "../models/medicine.schema";
 import {IsNumber, Max, Min} from "class-validator";
 
-export class CreateMedicineDto implements Partial<Medicine> {
+export class CreateMedicamentDto implements Partial<Medicament> {
     code: string;
 
     image: string;

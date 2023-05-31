@@ -1,18 +1,17 @@
 import {Service} from "typedi";
 import {validateInput, validateOutput} from "../../common/validation/validator";
-import {
-    InMemoryDroneRepository
-} from "./repositories/in-memory-drone-repository";
 import {BadRequestException} from "../../common/exceptions/HttpExceptions";
 import {isUUID} from "class-validator";
 import {CreateDroneDto} from "./dtos/create-drone.dto";
 import {Drone} from "./models/drone.schema";
 import {GetBatteryLevelDto} from "./dtos/get-battery-level.dto";
+import {DroneRepository} from "./repositories/drone-repository";
+import '../dependencies-overrides'
 
 
 @Service()
 export class DroneService {
-    constructor(private readonly droneRepository: InMemoryDroneRepository) {
+    constructor(private readonly droneRepository: DroneRepository) {
     }
 
     async registerDrone(createDroneDto: CreateDroneDto) {

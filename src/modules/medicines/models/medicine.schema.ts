@@ -1,6 +1,6 @@
 import {CommonSchema} from "../../../common/models/common.schema";
 
-export class Medicine extends CommonSchema {
+export class Medicament extends CommonSchema {
     name: string
 
     weight: number
