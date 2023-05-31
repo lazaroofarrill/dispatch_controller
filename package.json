@@ -1,0 +1,15 @@
+{
+  "name": "dispatch_controller",
+  "version": "1.0.0",
+  "description": "Med Aid Drone Dispatch Controller",
+  "main": "index.js",
+  "author": "lazaroofarrill <lazaroofarrill@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^20.2.5",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
