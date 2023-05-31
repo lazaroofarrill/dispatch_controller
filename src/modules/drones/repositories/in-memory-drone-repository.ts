@@ -1,7 +1,7 @@
-import {Drone} from "../model/drone.schema";
 import {DroneRepository} from "./drone-repository";
 import {Service} from "typedi";
 import {DroneStateEnum} from "../enums/drone-state.enum";
+import {Drone} from "../models/drone.schema";
 
 const droneStorage: Record<string, Drone> = {}
 
@@ -17,5 +17,9 @@ export class InMemoryDroneRepository extends DroneRepository {
         const drones = Object.keys(droneStorage).map(k => droneStorage[k]).filter(drone => drone.state === DroneStateEnum.IDLE)
         console.log(drones)
         return drones
+    }
+
+    findById(droneId: string): Drone | null {
+        return droneStorage[droneId] || null
     }
 }

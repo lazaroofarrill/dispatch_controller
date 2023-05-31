@@ -1,5 +1,5 @@
-import {Drone} from "../model/drone.schema";
 import {Service} from "typedi";
+import {Drone} from "../models/drone.schema";
 
 @Service()
 export abstract class DroneRepository {

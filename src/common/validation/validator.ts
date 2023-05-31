@@ -1,7 +1,11 @@
 import {validateOrReject} from "class-validator";
-import {BadRequestException} from "../exceptions/HttpExceptions";
+import {BadRequestException, HttpException} from "../exceptions/HttpExceptions";
 
-export const validateDto: (ctr: any, dto: any) => Promise<void> = (ctr: any, dto: any) => {
+export const validateInput = (ctr: any, dto: any) => {
+    if (!dto) {
+        throw new BadRequestException('object must be defined')
+    }
+
     return validateOrReject(Object.assign(new ctr(), dto), {
         forbidUnknownValues: true,
         forbidNonWhitelisted: true,
@@ -11,3 +15,8 @@ export const validateDto: (ctr: any, dto: any) => Promise<void> = (ctr: any, dto
         })
 }
 
+export const validateOutput = (ctr: any, dto: any) => {
+    return validateInput(ctr, dto).catch((err) => {
+        throw new HttpException()
+    })
+}

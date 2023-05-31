@@ -13,3 +13,6 @@ Content-Type: application/json
 
 ### List available drones
 GET {{host}}/drones
+
+### Get battery level of a single drone
+GET {{host}}/drones/2e6bf707-6ff3-4e44-84e5-3aba43cbab98/battery

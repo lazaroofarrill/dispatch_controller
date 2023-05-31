@@ -1,7 +1,7 @@
 import {Container, Service} from "typedi";
 import express from "express";
-import {CreateDroneDto} from "./dto/create-drone.dto";
 import {DroneService} from "./drone.service";
+import {CreateDroneDto} from "./dtos/create-drone.dto";
 
 const droneRouter = express.Router()
 
@@ -26,8 +26,8 @@ export class DroneController {
         return this.droneService.getAvailableDrones()
     }
 
-    checkBatteryLevel() {
-
+    checkBatteryLevel(droneId: string) {
+        return this.droneService.checkBatteryLevel(droneId)
     }
 }
 
@@ -38,10 +38,17 @@ droneRouter.get('/',
         droneController.checkAvailableDrones()
             .then(result => res.send(result))
             .catch(err => next(err)))
+
 droneRouter.post('/',
     (req, res, next) =>
         droneController.registerDrone(req.body)
             .then(result => res.send(result))
+            .catch(err => next(err)))
+
+droneRouter.get('/:id/battery',
+    (req, res, next) =>
+        droneController.checkBatteryLevel(req.params.id)
+            .then((result) => res.send(result))
             .catch(err => next(err)))
 
 

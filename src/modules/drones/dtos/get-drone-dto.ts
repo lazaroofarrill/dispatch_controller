@@ -1,25 +1,25 @@
 import {Drone} from "../model/drone.schema";
+import {DroneStateEnum} from "../enums/drone-state.enum";
+import {DroneModelEnum} from "../enums/drone-model.enum";
 import {
-    IsEnum,
-    IsInt,
+    IsEnum, IsIn, IsInt,
     IsNumber,
     IsString,
+    IsUUID,
     Max,
     MaxLength,
     Min
 } from "class-validator";
-import {DroneModelEnum} from "../enums/drone-model.enum";
-import {DroneStateEnum} from "../enums/drone-state.enum";
 
-export class CreateDroneDto implements Partial<Drone> {
+export class GetDroneDto implements Partial<Drone> {
     @IsInt()
-    @Min(0)
-    @Max(100)
     batteryCapacity: number;
+
+    @IsUUID()
+    id: string;
 
     @IsEnum(DroneModelEnum)
     model: DroneModelEnum;
-
 
     @IsString()
     @MaxLength(100)

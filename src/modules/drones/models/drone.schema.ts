@@ -1,8 +1,8 @@
 import {DroneModelEnum} from "../enums/drone-model.enum";
 import {DroneStateEnum} from "../enums/drone-state.enum";
-import {v4 as uuid} from 'uuid'
+import {CommonSchema} from "../../../common/models/common.schema";
 
-export class Drone {
+export class Drone extends CommonSchema {
     id: string
 
     serialNumber: string
@@ -15,7 +15,7 @@ export class Drone {
 
     state: DroneStateEnum
 
-    constructor(init: Partial<Drone>) {
-        this.id = uuid()
+    constructor() {
+        super()
     }
 }
