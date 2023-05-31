@@ -1,18 +1,19 @@
-import {Drone} from "../models/drone.schema";
-import {Medicament} from "../../medicines/models/medicine.schema";
+import { Drone } from "../models/drone.model"
+import { Medicament } from "../../medicaments/models/medicament.model"
 
 export abstract class DroneRepository {
+  abstract save(drone: Drone): Drone
 
-    abstract save(drone: Drone): Drone
+  abstract getAvailableDrones(): Drone[]
 
-    abstract getAvailableDrones(): Drone[]
+  abstract findById(droneId: string): Drone | null
 
-    abstract findById(droneId: string): Drone | null
+  abstract loadItem(droneId: string, medicamentId: string): Promise<boolean>
 
-    abstract loadItem(droneId: string, medicamentId: string): Promise<boolean>
-
-    abstract getLoadedItems(droneId: string): Promise<{
-        medicament: Medicament,
-        quantity: number
-    }[]>
+  abstract getLoadedItems(droneId: string): Promise<
+    {
+      medicament: Medicament
+      quantity: number
+    }[]
+  >
 }

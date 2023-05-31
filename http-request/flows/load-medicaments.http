@@ -1,0 +1,12 @@
+### Create Medicaments
+POST {{host}}/drones
+Content-Type: application/json
+
+{
+  "serialNumber": "medicament01",
+  "weightLimit": 500,
+  "batteryCapacity": 34,
+  "state": "IDLE",
+  "model": "Lightweight"
+}
+
