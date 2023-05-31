@@ -1,4 +1,3 @@
-import {Drone} from "../model/drone.schema";
 import {DroneStateEnum} from "../enums/drone-state.enum";
 import {DroneModelEnum} from "../enums/drone-model.enum";
 import {
@@ -10,6 +9,7 @@ import {
     MaxLength,
     Min
 } from "class-validator";
+import {Drone} from "../models/drone.schema";
 
 export class GetDroneDto implements Partial<Drone> {
     @IsInt()

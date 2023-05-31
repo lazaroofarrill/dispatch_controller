@@ -6,7 +6,9 @@
   "author": "lazaroofarrill <lazaroofarrill@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start:dev": "nodemon src/app.ts"
+    "start:dev": "nodemon src/app.ts",
+    "build": "tsc",
+    "start": "node --es-module-specifier-resolution=node build/app.js"
   },
   "dependencies": {
     "@types/node": "^20.2.5",
