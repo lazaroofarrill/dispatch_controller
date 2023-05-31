@@ -1,7 +1,10 @@
 import {DroneModelEnum} from "../enums/drone-model.enum";
 import {DroneStateEnum} from "../enums/drone-state.enum";
+import {v4 as uuid} from 'uuid'
 
 export class Drone {
+    id: string
+
     serialNumber: string
 
     model: DroneModelEnum
@@ -12,11 +15,7 @@ export class Drone {
 
     state: DroneStateEnum
 
-    constructor(init: Drone) {
-        this.serialNumber = init.serialNumber
-        this.model = init.model
-        this.weightLimit = init.weightLimit
-        this.batteryCapacity = init.batteryCapacity
-        this.state = init.state
+    constructor(init: Partial<Drone>) {
+        this.id = uuid()
     }
 }

@@ -1,7 +1,7 @@
 export class HttpException {
     status: number
 
-    message: string
+    message: string | Record<string, any>
 
     constructor() {
         this.status = 500
@@ -10,10 +10,10 @@ export class HttpException {
 }
 
 export class BadRequestException extends HttpException {
-    message: string;
+    message: string | Record<string, any>;
     status: number = 400;
 
-    constructor(message: string) {
+    constructor(message: string | Record<string, any>) {
         super()
         this.message = message || 'Bad Request Exception'
     }
