@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "lazaroofarrill <lazaroofarrill@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start:dev": "nodemon src/app.ts"
+  },
   "dependencies": {
     "@types/node": "^20.2.5",
     "@types/uuid": "^9.0.1",

@@ -14,12 +14,16 @@ export class DroneController {
         return this.droneService.registerDrone(createDroneDto)
     }
 
-    loadItem() {
+    loadItem(droneId: string, medicamentId: string) {
+        return this.droneService.loadItem(droneId, medicamentId)
+    }
+
+    unloadItem() {
 
     }
 
-    checkLoadedItems() {
-
+    checkLoadedItems(droneId: string) {
+        return this.droneService.checkLoadedItems(droneId)
     }
 
     checkAvailableDrones() {
@@ -49,6 +53,18 @@ droneRouter.get('/:id/battery',
     (req, res, next) =>
         droneController.checkBatteryLevel(req.params.id)
             .then((result) => res.send(result))
+            .catch(err => next(err)))
+
+droneRouter.patch('/:id/items/load/:medicamentId',
+    (req, res, next) =>
+        droneController.loadItem(req.params.id, req.params.medicamentId)
+            .then(result => res.send(result))
+            .catch(err => next(err)))
+
+droneRouter.get('/:id/items',
+    (req, res, next) =>
+        droneController.checkLoadedItems(req.params.id)
+            .then(result => res.send(result))
             .catch(err => next(err)))
 
 

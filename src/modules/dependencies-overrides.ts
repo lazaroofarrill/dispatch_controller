@@ -10,5 +10,5 @@ import {
     InMemoryMedicamentRepository
 } from "./medicines/repositories/in-memory-medicament.repository";
 
-Container.set(DroneRepository, Container.get(InMemoryDroneRepository))
 Container.set(MedicamentRepository, Container.get(InMemoryMedicamentRepository))
+Container.set(DroneRepository, Container.get(InMemoryDroneRepository))

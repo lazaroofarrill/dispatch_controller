@@ -16,3 +16,6 @@ GET {{host}}/drones
 
 ### Get battery level of a single drone
 GET {{host}}/drones/2e6bf707-6ff3-4e44-84e5-3aba43cbab98/battery
+
+### Load item
+PATCH {{host}}/drones/635ce5f8-8326-4ea6-ac41-642b4cd29ce0/items/load/93c29a5e-4a10-403b-b846-b179b1f28601

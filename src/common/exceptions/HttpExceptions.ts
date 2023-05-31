@@ -3,9 +3,9 @@ export class HttpException {
 
     message: string | Record<string, any>
 
-    constructor() {
+    constructor(message?: string | Record<string, any>) {
         this.status = 500
-        this.message = 'Internal Server Error'
+        this.message = message || 'Internal Server Error'
     }
 }
 
@@ -14,7 +14,6 @@ export class BadRequestException extends HttpException {
     status: number = 400;
 
     constructor(message: string | Record<string, any>) {
-        super()
-        this.message = message || 'Bad Request Exception'
+        super(message || 'Bad Request Exception')
     }
 }

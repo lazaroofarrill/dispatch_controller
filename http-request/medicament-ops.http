@@ -1,0 +1,13 @@
+### Create Medicament
+POST {{host}}/medicaments
+Content-Type: application/json
+
+{
+  "weight": 100,
+  "name": "Clonazepam",
+  "image": "image",
+  "code": "CZP_01"
+}
+
+### List Medicaments
+GET {{host}}/medicaments
