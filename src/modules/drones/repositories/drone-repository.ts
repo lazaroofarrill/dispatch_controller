@@ -1,5 +1,6 @@
 import { Drone } from '../models/drone.model'
 import { Medicament } from '../../medicaments/models/medicament.model'
+import { Service } from 'typedi'
 
 export abstract class DroneRepository {
   abstract save(drone: Drone): Promise<Drone>

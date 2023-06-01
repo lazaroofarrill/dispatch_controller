@@ -15,10 +15,7 @@ export class DroneController {
   }
 
   loadItem(droneId: string, medicamentId: string) {
-    return this.droneService.loadItem(droneId, medicamentId).catch(err => {
-      console.log(err)
-      throw err
-    })
+    return this.droneService.loadItem(droneId, medicamentId)
   }
 
   checkLoadedItems(droneId: string) {

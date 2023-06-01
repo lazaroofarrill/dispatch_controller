@@ -1,15 +1,17 @@
-import type { Config } from "jest"
+import type { Config } from 'jest'
 
 const config: Config = {
   verbose: true,
-  testEnvironment: "node",
-  rootDir: ".",
-  testRegex: ".*spec\\.ts$",
+  testEnvironment: 'node',
+  rootDir: '.',
+  testRegex: '.*spec\\.ts$',
   roots: [
-    '<rootDir>/tests'
+    '<rootDir>/tests',
+    '<rootDir>/src'
   ],
   preset: 'ts-jest',
-  setupFiles: ['reflect-metadata']
+  setupFiles: ['reflect-metadata'],
+  setupFilesAfterEnv: ['jest-extended/all']
 }
 
 export default config

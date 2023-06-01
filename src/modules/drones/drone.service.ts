@@ -79,13 +79,11 @@ export class DroneService {
     await this.droneRepository.save(drone)
 
     const droneLoadedItems = await this.checkLoadedItems(droneId)
-    console.log('loaded drone items', droneLoadedItems)
 
     const loadedWeight = droneLoadedItems.reduce((previous, current) => {
       return previous + current.quantity * medicament.weight
     }, 0)
 
-    console.log(loadedWeight, medicament.weight, drone.weightLimit)
 
     if (loadedWeight + medicament.weight > drone.weightLimit) {
       throw new BadRequestException(

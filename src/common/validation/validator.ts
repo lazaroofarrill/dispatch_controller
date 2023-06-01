@@ -1,24 +1,30 @@
-import { validateOrReject } from 'class-validator'
+import { validateOrReject, ValidationError } from 'class-validator'
 import {
   BadRequestException,
-  HttpException,
+  HttpException
 } from '../exceptions/HttpExceptions'
 
-export const validateInput = (ctr: new () => object, dto: object) => {
+const validateObject = (ctr: new () => object, dto: object) => {
   if (!dto) {
-    throw new BadRequestException('object must be defined')
+    throw  Error('Object for validation cannot be undefined')
   }
 
   return validateOrReject(Object.assign(new ctr(), dto), {
     forbidUnknownValues: true,
-    forbidNonWhitelisted: true,
-  }).catch((err) => {
+    forbidNonWhitelisted: true
+  }).catch((errors: ValidationError[]) => {
+    throw errors.map(validationError => validationError.constraints).flat()
+  })
+}
+
+export const validateInput = (ctr: new () => object, dto: object) => {
+  return validateObject(ctr, dto).catch(err => {
     throw new BadRequestException(err)
   })
 }
 
 export const validateOutput = (ctr: new () => object, dto: object) => {
-  return validateInput(ctr, dto).catch(() => {
+  return validateObject(ctr, dto).catch(() => {
     throw new HttpException('Output Encoding Error')
   })
 }

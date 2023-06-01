@@ -17,14 +17,13 @@ import {
   dataSource
 } from '../../src/common/adapters/storage/typeorm/data-source'
 
+import '../test-dependencies-overrides'
+
 let app: Express
 
-beforeEach(() => {
+beforeAll(async () => {
   app = express()
   app.use(appRouter)
-})
-
-beforeAll(async () => {
   return dataSource.initialize()
 })
 
