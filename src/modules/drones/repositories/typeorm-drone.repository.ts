@@ -8,9 +8,6 @@ import {
 import { Service } from 'typedi'
 import { DroneStateEnum } from '../enums/drone-state.enum'
 import {
-  MedicamentEntity
-} from '../../../common/adapters/storage/typeorm/entities/medicament.entity'
-import {
   DroneMedicamentJoinEntity
 } from '../../../common/adapters/storage/typeorm/entities/drone-medicament-join.entity'
 import { InternalServerError } from '../../../common/exceptions/HttpExceptions'
@@ -86,10 +83,6 @@ export class TypeormDroneRepository extends DroneRepository {
 
   private get droneRepository(): Repository<DroneEntity> {
     return getAsyncRepo(DroneEntity)
-  }
-
-  private get medicamentRepository(): Repository<MedicamentEntity> {
-    return getAsyncRepo(MedicamentEntity)
   }
 
   private get droneMedicamentJoinRepository(): Repository<DroneMedicamentJoinEntity> {
