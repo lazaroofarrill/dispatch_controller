@@ -24,7 +24,7 @@ export class MedicamentEntity implements Medicament {
 
   @OneToMany(() => DroneMedicamentJoinEntity,
     (droneToMedicamentJoin) => droneToMedicamentJoin.medicament)
-  droneMedicamentJoin: Relation<DroneMedicamentJoinEntity>
+  droneMedicamentJoin: Relation<DroneMedicamentJoinEntity[]>
 
   toMedicament(): Medicament {
     const { id, code, image, name, weight } = this

@@ -18,4 +18,4 @@ GET {{host}}/drones
 GET {{host}}/drones/2e6bf707-6ff3-4e44-84e5-3aba43cbab98/battery
 
 ### Load item
-PATCH {{host}}/drones/376ac148-232c-4a2e-abcf-a9495d39890c/items/load/2a82f257-bd0c-4a13-9e4c-ca4310914a9c
+PATCH {{host}}/drones/973c4eb9-2edc-4631-a140-29d42f1f158d/items/load/d42eb3e1-6298-47d0-8ebf-3bb2b907ae89

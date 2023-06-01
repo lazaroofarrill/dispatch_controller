@@ -1,7 +1,6 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm'
+import { Column, Entity, ManyToOne, PrimaryColumn, Relation } from 'typeorm'
 import { DroneEntity } from './drone.entity'
 import { MedicamentEntity } from './medicament.entity'
-import { Relation } from 'typeorm/browser'
 
 @Entity('drone_medicament_join')
 export class DroneMedicamentJoinEntity {
@@ -11,10 +10,10 @@ export class DroneMedicamentJoinEntity {
   @PrimaryColumn()
   medicamentId: string
 
-  @ManyToOne(() => MedicamentEntity)
+  @ManyToOne(() => MedicamentEntity, (medicament) => medicament.droneMedicamentJoin)
   medicament?: Relation<MedicamentEntity>
 
-  @ManyToOne(() => DroneEntity)
+  @ManyToOne(() => DroneEntity, (drone) => drone.droneMedicamentJoin)
   drone?: Relation<DroneEntity>
 
   @Column('integer')

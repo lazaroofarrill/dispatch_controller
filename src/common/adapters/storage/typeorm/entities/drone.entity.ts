@@ -30,7 +30,7 @@ export class DroneEntity implements Drone {
 
   @OneToMany(() => DroneMedicamentJoinEntity,
     (droneToMedicamentJoin) => droneToMedicamentJoin.drone)
-  droneMedicamentJoin: DroneMedicamentJoinEntity
+  droneMedicamentJoin: DroneMedicamentJoinEntity[]
 
   toDrone(): Drone {
     const {

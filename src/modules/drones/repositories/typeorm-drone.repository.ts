@@ -38,14 +38,18 @@ export class TypeormDroneRepository extends DroneRepository {
     medicament: Medicament;
     quantity: number
   }[]> {
-    const relatedMedicamentsQueryBuilder = await this.medicamentRepository
-      .createQueryBuilder('c')
-      .innerJoinAndSelect('droneMedicamentJoin', 'c_drone_medicament_join', 'droneId = :droneId', { droneId })
 
-    const relatedMedicaments = await relatedMedicamentsQueryBuilder.getMany()
-    return relatedMedicaments.map(relatedMedicament => ({
-      medicament: relatedMedicament.toMedicament(),
-      quantity: relatedMedicament.droneMedicamentJoin.quantity
+
+    const droneMedicamentJoins = await this
+      .droneMedicamentJoinRepository
+      .createQueryBuilder('c')
+      .andWhere('drone_id = :droneId', { droneId })
+      .innerJoinAndSelect('c.medicament', 'c_medicaments', 'c_medicaments.id = c.medicament_id')
+      .getMany()
+
+    return droneMedicamentJoins.map(droneMedicamentJoin => ({
+      medicament: droneMedicamentJoin.medicament as any,
+      quantity: droneMedicamentJoin.quantity
     }))
   }
 
@@ -58,7 +62,7 @@ export class TypeormDroneRepository extends DroneRepository {
 
     if (!droneMedicamentJoin) {
       droneMedicamentJoin = {
-        droneId, medicamentId, quantity: 1
+        droneId, medicamentId, quantity: 0
       }
     }
 
