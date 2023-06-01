@@ -6,6 +6,7 @@ import {
 import { MedicamentEntity } from './entities/medicament.entity'
 import 'dotenv/config'
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
+import { LogsEntity } from './entities/logs.entity'
 
 
 export const dataSource: DataSource = new DataSource({
@@ -14,7 +15,8 @@ export const dataSource: DataSource = new DataSource({
   entities: [
     MedicamentEntity,
     DroneMedicamentJoinEntity,
-    DroneEntity
+    DroneEntity,
+    LogsEntity
   ],
   synchronize: true,
   namingStrategy: new SnakeNamingStrategy()
