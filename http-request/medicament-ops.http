@@ -4,10 +4,15 @@ Content-Type: application/json
 
 {
   "code": "CZP_01",
-  "image": "picsum/1",
+  "image": "1a9e1ec4-c9cd-462a-9c5d-d30f3254e6a2",
   "name": "Clonazepam",
   "weight": 250
 }
 
 ### List Medicaments
 GET {{host}}/medicaments
+
+### Get Medicament Image
+GET {{host}}/media/1a9e1ec4-c9cd-462a-9c5d-d30f3254e6a2
+
+>> medicament-image.png
