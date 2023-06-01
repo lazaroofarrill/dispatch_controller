@@ -4,6 +4,10 @@ import { CreateMedicamentDto } from "./dtos/create-medicament.dto"
 import { Medicament } from "./models/medicament.model"
 import { validateInput } from "../../common/validation/validator"
 import "../dependencies"
+import {
+  BadRequestException,
+  HttpException
+} from "../../common/exceptions/HttpExceptions"
 
 @Service()
 export class MedicamentService {

@@ -12,7 +12,7 @@ export class HttpException {
 export class BadRequestException extends HttpException {
   status = 400
 
-  constructor(message: string | object) {
+  constructor(message?: string | object) {
     super(message || "Bad Request Exception")
   }
 }

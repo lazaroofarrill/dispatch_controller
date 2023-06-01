@@ -7,7 +7,8 @@ const droneRouter = express.Router()
 
 @Service()
 export class DroneController {
-  constructor(private readonly droneService: DroneService) {}
+  constructor(private readonly droneService: DroneService) {
+  }
 
   registerDrone(createDroneDto: CreateDroneDto) {
     return this.droneService.registerDrone(createDroneDto)
@@ -42,7 +43,10 @@ droneRouter.get("/", (req, res, next) =>
 droneRouter.post("/", (req, res, next) =>
   droneController
     .registerDrone(req.body)
-    .then((result) => res.send(result))
+    .then((result) => {
+      res.status(201)
+      res.send(result)
+    })
     .catch((err) => next(err))
 )
 

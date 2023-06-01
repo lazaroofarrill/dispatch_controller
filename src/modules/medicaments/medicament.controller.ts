@@ -7,7 +7,8 @@ const medicamentRouter = express.Router()
 
 @Service()
 export class MedicamentController {
-  constructor(private readonly medicamentService: MedicamentService) {}
+  constructor(private readonly medicamentService: MedicamentService) {
+  }
 
   createMedicament(createMedicamentDto: CreateMedicamentDto) {
     return this.medicamentService.saveMedicament(createMedicamentDto)
@@ -27,11 +28,15 @@ medicamentRouter.get("/", (req, res, next) =>
     .catch((err) => next(err))
 )
 
-medicamentRouter.post("/", (req, res, next) =>
-  medicamentController
-    .createMedicament(req.body)
-    .then((result) => res.send(result))
-    .catch((err) => next(err))
+medicamentRouter.post("/",
+  (req, res, next) =>
+    medicamentController
+      .createMedicament(req.body)
+      .then((result) => {
+        res.status(201)
+        res.send(result)
+      })
+      .catch(err => next(err))
 )
 
 export { medicamentRouter }
