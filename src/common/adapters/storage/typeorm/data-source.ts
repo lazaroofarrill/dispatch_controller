@@ -4,13 +4,18 @@ import {
   DroneMedicamentJoinEntity
 } from './entities/drone-medicament-join.entity'
 import { MedicamentEntity } from './entities/medicament.entity'
+import 'dotenv/config'
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
+
 
 export const dataSource: DataSource = new DataSource({
-  url: '',
+  url: process.env.DATABASE_URL,
   type: 'postgres',
   entities: [
-    DroneEntity,
+    MedicamentEntity,
     DroneMedicamentJoinEntity,
-    MedicamentEntity
-  ]
+    DroneEntity
+  ],
+  synchronize: true,
+  namingStrategy: new SnakeNamingStrategy()
 })

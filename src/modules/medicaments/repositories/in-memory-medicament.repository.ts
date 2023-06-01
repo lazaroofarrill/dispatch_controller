@@ -6,15 +6,15 @@ const medicamentStorage: Record<string, Medicament> = {}
 
 @Service()
 export class InMemoryMedicamentRepository extends MedicamentRepository {
-  find(): Medicament[] {
+  async find(): Promise<Medicament[]> {
     return Object.keys(medicamentStorage).map((k) => medicamentStorage[k])
   }
 
-  findById(medicamentId: string): Medicament | null {
+  async findById(medicamentId: string): Promise<Medicament | null> {
     return medicamentStorage[medicamentId] || null
   }
 
-  save(medicament: Medicament): Medicament {
+  async save(medicament: Medicament): Promise<Medicament> {
     medicamentStorage[medicament.id] = medicament
     return medicament
   }

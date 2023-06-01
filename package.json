@@ -12,7 +12,8 @@
     "lint": "eslint src --fix",
     "clean": "rimraf build",
     "format": "prettier src -w",
-    "test": "node --experimental-vm-modules $(yarn bin jest)"
+    "test": "node --experimental-vm-modules $(yarn bin jest)",
+    "typeorm": "typeorm-ts-node-esm -d src/common/adapters/storage/typeorm/data-source.ts"
   },
   "dependencies": {
     "@types/node": "^20.2.5",
@@ -27,6 +28,7 @@
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0",
     "typeorm": "^0.3.16",
+    "typeorm-naming-strategies": "^4.1.0",
     "typescript": "^5.0.4",
     "uuid": "^9.0.0"
   },

@@ -1,15 +1,20 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { Drone } from '../../../../../modules/drones/models/drone.model'
-import { DroneModelEnum } from '../../../../../modules/drones/enums/drone-model.enum'
-import { DroneStateEnum } from '../../../../../modules/drones/enums/drone-state.enum'
+import {
+  DroneModelEnum
+} from '../../../../../modules/drones/enums/drone-model.enum'
+import {
+  DroneStateEnum
+} from '../../../../../modules/drones/enums/drone-state.enum'
+import { DroneMedicamentJoinEntity } from './drone-medicament-join.entity'
 
-@Entity()
+@Entity('drones')
 export class DroneEntity implements Drone {
-  @PrimaryGeneratedColumn({ type: 'integer' })
-  batteryCapacity: number
-
   @PrimaryGeneratedColumn('uuid')
   id: string
+
+  @Column({ type: 'integer' })
+  batteryCapacity: number
 
   @Column({ type: 'enum', enum: DroneModelEnum })
   model: DroneModelEnum
@@ -22,4 +27,27 @@ export class DroneEntity implements Drone {
 
   @Column({ type: 'double precision' })
   weightLimit: number
+
+  @OneToMany(() => DroneMedicamentJoinEntity,
+    (droneToMedicamentJoin) => droneToMedicamentJoin.drone)
+  droneMedicamentJoin: DroneMedicamentJoinEntity
+
+  toDrone(): Drone {
+    const {
+      batteryCapacity,
+      id,
+      model,
+      serialNumber,
+      state,
+      weightLimit
+    } = this
+    return {
+      batteryCapacity,
+      id,
+      model,
+      serialNumber,
+      state,
+      weightLimit
+    }
+  }
 }

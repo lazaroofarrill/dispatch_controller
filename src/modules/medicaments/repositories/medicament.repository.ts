@@ -1,9 +1,9 @@
 import { Medicament } from '../models/medicament.model'
 
 export abstract class MedicamentRepository {
-  abstract save(medicine: Medicament): Medicament
+  abstract save(medicament: Medicament): Promise<Medicament>
 
-  abstract findById(medicamentId: string): Medicament | null
+  abstract findById(medicamentId: string): Promise<Medicament | null>
 
-  abstract find(): Medicament[]
+  abstract find(): Promise<Medicament[]>
 }

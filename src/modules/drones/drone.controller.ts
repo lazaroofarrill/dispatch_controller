@@ -7,14 +7,18 @@ const droneRouter = express.Router()
 
 @Service()
 export class DroneController {
-  constructor(private readonly droneService: DroneService) {}
+  constructor(private readonly droneService: DroneService) {
+  }
 
   registerDrone(createDroneDto: CreateDroneDto) {
     return this.droneService.registerDrone(createDroneDto)
   }
 
   loadItem(droneId: string, medicamentId: string) {
-    return this.droneService.loadItem(droneId, medicamentId)
+    return this.droneService.loadItem(droneId, medicamentId).catch(err => {
+      console.log(err)
+      throw err
+    })
   }
 
   checkLoadedItems(droneId: string) {

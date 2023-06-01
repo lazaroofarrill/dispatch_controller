@@ -1,18 +1,21 @@
-import express, { Express } from "express"
-import { appRouter } from "../../src/modules/router"
-import request from "supertest"
-import { CreateDroneDto } from "../../src/modules/drones/dtos/create-drone.dto"
-import { DroneModelEnum } from "../../src/modules/drones/enums/drone-model.enum"
-import { DroneStateEnum } from "../../src/modules/drones/enums/drone-state.enum"
-import { isUUID } from "class-validator"
+import express, { Express } from 'express'
+import { appRouter } from '../../src/modules/router'
+import request from 'supertest'
+import { CreateDroneDto } from '../../src/modules/drones/dtos/create-drone.dto'
+import { DroneModelEnum } from '../../src/modules/drones/enums/drone-model.enum'
+import { DroneStateEnum } from '../../src/modules/drones/enums/drone-state.enum'
+import { isUUID } from 'class-validator'
 import {
   CreateMedicamentDto
-} from "../../src/modules/medicaments/dtos/create-medicament.dto"
+} from '../../src/modules/medicaments/dtos/create-medicament.dto'
 import {
   Medicament
-} from "../../src/modules/medicaments/models/medicament.model"
-import { randomUUID } from "crypto"
-import { Drone } from "../../src/modules/drones/models/drone.model"
+} from '../../src/modules/medicaments/models/medicament.model'
+import { randomUUID } from 'crypto'
+import { Drone } from '../../src/modules/drones/models/drone.model'
+import {
+  dataSource
+} from '../../src/common/adapters/storage/typeorm/data-source'
 
 let app: Express
 
@@ -21,8 +24,12 @@ beforeEach(() => {
   app.use(appRouter)
 })
 
-describe("Load Drone", function() {
-  it("should load a drone with medicine", async () => {
+beforeAll(async () => {
+  return dataSource.initialize()
+})
+
+describe('Load Drone', function() {
+  it('should load a drone with medicine', async () => {
     const createDroneDtos: CreateDroneDto[] = [
       {
         batteryCapacity: 100,
@@ -52,7 +59,7 @@ describe("Load Drone", function() {
       createDroneDtos.map(
         createDroneDto =>
           request(app)
-            .post("/drones")
+            .post('/drones')
             .send(createDroneDto)
             .expect(201)
             .then(response => response.body))
@@ -63,10 +70,10 @@ describe("Load Drone", function() {
 
     const createMedicamentsDtos: CreateMedicamentDto[] = [
       {
-        code: "CZP_01", image: "picsum/1", name: "Clonazepam", weight: 250
+        code: 'CZP_01', image: 'picsum/1', name: 'Clonazepam', weight: 250
       },
       {
-        code: "VCT", image: "picsum/2", name: "Victorious", weight: 35
+        code: 'VCT', image: 'picsum/2', name: 'Victorious', weight: 35
       }
     ]
 
@@ -74,7 +81,7 @@ describe("Load Drone", function() {
     const createdMedicaments: Medicament[] = await Promise.all(
       createMedicamentsDtos.map((medicamentDto) => {
         return request(app)
-          .post("/medicaments")
+          .post('/medicaments')
           .send(medicamentDto)
           .expect(201)
           .then((result) => {
@@ -91,7 +98,7 @@ describe("Load Drone", function() {
     await request(app)
       .patch(`/drones/${drone1.id}/items/load/${createdMedicaments[0].id}`)
       .expect(200)
-      .expect("true")
+      .expect('true')
 
     //Get available drones
     const { body: loadedItems } = await request(app)
@@ -102,14 +109,14 @@ describe("Load Drone", function() {
     await request(app)
       .patch(`/drones/${drone1.id}/items/load/${createdMedicaments[0].id}`)
       .expect(200)
-      .expect("true")
+      .expect('true')
 
     await request(app)
       .patch(`/drones/${drone1.id}/items/load/${createdMedicaments[0].id}`)
       .expect(400)
       .expect({
-        "status": 400,
-        "message": "Weight limit of the drone has been reached"
+        'status': 400,
+        'message': 'Weight limit of the drone has been reached'
       })
 
     //Check battery level for drone 2

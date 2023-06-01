@@ -3,10 +3,10 @@ POST {{host}}/medicaments
 Content-Type: application/json
 
 {
-  "code": "VCT",
-  "image": "picsum/2",
-  "name": "Victorious45",
-  "weight": 35
+  "code": "CZP_01",
+  "image": "picsum/1",
+  "name": "Clonazepam",
+  "weight": 250
 }
 
 ### List Medicaments
