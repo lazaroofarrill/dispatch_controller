@@ -1,20 +1,20 @@
-import { Service } from "typedi"
+import { Service } from 'typedi'
 import {
   validateInput,
   validateOutput,
-} from "../../common/validation/validator"
+} from '../../common/validation/validator'
 import {
   BadRequestException,
   HttpException,
-} from "../../common/exceptions/HttpExceptions"
-import { isUUID } from "class-validator"
-import { CreateDroneDto } from "./dtos/create-drone.dto"
-import { Drone } from "./models/drone.model"
-import { GetBatteryLevelDto } from "./dtos/get-battery-level.dto"
-import { DroneRepository } from "./repositories/drone-repository"
-import "../dependencies"
-import { DroneStateEnum } from "./enums/drone-state.enum"
-import { MedicamentRepository } from "../medicaments/repositories/medicament.repository"
+} from '../../common/exceptions/HttpExceptions'
+import { isUUID } from 'class-validator'
+import { CreateDroneDto } from './dtos/create-drone.dto'
+import { Drone } from './models/drone.model'
+import { GetBatteryLevelDto } from './dtos/get-battery-level.dto'
+import { DroneRepository } from './repositories/drone-repository'
+import '../../common/dependencies'
+import { DroneStateEnum } from './enums/drone-state.enum'
+import { MedicamentRepository } from '../medicaments/repositories/medicament.repository'
 
 @Service()
 export class DroneService {
@@ -37,7 +37,7 @@ export class DroneService {
 
   async checkBatteryLevel(droneId: string) {
     if (!isUUID(droneId)) {
-      throw new BadRequestException("droneId must be a valid UUID")
+      throw new BadRequestException('droneId must be a valid UUID')
     }
 
     const drone = await this.droneRepository.findById(droneId)
@@ -68,7 +68,7 @@ export class DroneService {
     }
 
     if (drone.state !== DroneStateEnum.IDLE) {
-      throw new BadRequestException("Drone is busy")
+      throw new BadRequestException('Drone is busy')
     }
 
     drone.state = DroneStateEnum.LOADING
@@ -82,7 +82,7 @@ export class DroneService {
 
     if (loadedWeight + medicament.weight > drone.weightLimit) {
       throw new BadRequestException(
-        "Weight limit of the drone has been reached"
+        'Weight limit of the drone has been reached'
       )
     }
 
@@ -91,7 +91,7 @@ export class DroneService {
     const loadedDrone = await this.droneRepository.findById(droneId)
     if (!loadedDrone) {
       throw new HttpException(
-        "Underlying storage was modified while executing change"
+        'Underlying storage was modified while executing change'
       )
     }
 

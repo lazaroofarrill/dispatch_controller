@@ -1,12 +1,12 @@
-import { validateOrReject } from "class-validator"
+import { validateOrReject } from 'class-validator'
 import {
   BadRequestException,
   HttpException,
-} from "../exceptions/HttpExceptions"
+} from '../exceptions/HttpExceptions'
 
 export const validateInput = (ctr: new () => object, dto: object) => {
   if (!dto) {
-    throw new BadRequestException("object must be defined")
+    throw new BadRequestException('object must be defined')
   }
 
   return validateOrReject(Object.assign(new ctr(), dto), {
@@ -19,6 +19,6 @@ export const validateInput = (ctr: new () => object, dto: object) => {
 
 export const validateOutput = (ctr: new () => object, dto: object) => {
   return validateInput(ctr, dto).catch(() => {
-    throw new HttpException("Output Encoding Error")
+    throw new HttpException('Output Encoding Error')
   })
 }

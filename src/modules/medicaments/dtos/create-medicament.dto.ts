@@ -1,5 +1,5 @@
-import { Medicament } from "../models/medicament.model"
-import { IsNumber, IsString, Matches, Max, Min } from "class-validator"
+import { Medicament } from '../models/medicament.model'
+import { IsNumber, IsString, Matches, Max, Min } from 'class-validator'
 
 export class CreateMedicamentDto implements Partial<Medicament> {
   @Matches(/^[A-Z_0-9]{1,255}$/gm)

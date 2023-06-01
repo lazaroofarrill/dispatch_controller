@@ -1,6 +1,6 @@
-import { MedicamentRepository } from "./medicament.repository"
-import { Service } from "typedi"
-import { Medicament } from "../models/medicament.model"
+import { MedicamentRepository } from './medicament.repository'
+import { Service } from 'typedi'
+import { Medicament } from '../models/medicament.model'
 
 const medicamentStorage: Record<string, Medicament> = {}
 

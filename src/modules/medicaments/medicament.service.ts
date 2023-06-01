@@ -1,13 +1,13 @@
-import { Service } from "typedi"
-import { MedicamentRepository } from "./repositories/medicament.repository"
-import { CreateMedicamentDto } from "./dtos/create-medicament.dto"
-import { Medicament } from "./models/medicament.model"
-import { validateInput } from "../../common/validation/validator"
-import "../dependencies"
+import { Service } from 'typedi'
+import { MedicamentRepository } from './repositories/medicament.repository'
+import { CreateMedicamentDto } from './dtos/create-medicament.dto'
+import { Medicament } from './models/medicament.model'
+import { validateInput } from '../../common/validation/validator'
+import '../../common/dependencies'
 import {
   BadRequestException,
-  HttpException
-} from "../../common/exceptions/HttpExceptions"
+  HttpException,
+} from '../../common/exceptions/HttpExceptions'
 
 @Service()
 export class MedicamentService {

@@ -1,4 +1,4 @@
-import { CommonSchema } from "../../../common/models/common.schema"
+import { CommonSchema } from '../../../common/models/common.schema'
 
 export class Medicament extends CommonSchema {
   name: string

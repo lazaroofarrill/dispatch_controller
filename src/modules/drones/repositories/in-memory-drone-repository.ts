@@ -1,10 +1,12 @@
-import { DroneRepository } from "./drone-repository"
-import { Service } from "typedi"
-import { DroneStateEnum } from "../enums/drone-state.enum"
-import { Drone } from "../models/drone.model"
-import { HttpException } from "../../../common/exceptions/HttpExceptions"
-import { MedicamentRepository } from "../../medicaments/repositories/medicament.repository"
-import { Medicament } from "../../medicaments/models/medicament.model"
+import { DroneRepository } from './drone-repository'
+import { Service } from 'typedi'
+import { DroneStateEnum } from '../enums/drone-state.enum'
+import { Drone } from '../models/drone.model'
+import { HttpException } from '../../../common/exceptions/HttpExceptions'
+import {
+  MedicamentRepository
+} from '../../medicaments/repositories/medicament.repository'
+import { Medicament } from '../../medicaments/models/medicament.model'
 
 const droneStorage: Record<string, Drone> = {}
 
@@ -20,12 +22,12 @@ export class InMemoryDroneRepository extends DroneRepository {
     super()
   }
 
-  save(drone: Drone): Drone {
+  async save(drone: Drone): Promise<Drone> {
     droneStorage[drone.id] = drone
     return drone
   }
 
-  getAvailableDrones(): Drone[] {
+  async getAvailableDrones(): Promise<Drone[]> {
     console.log(droneStorage)
     const drones = Object.keys(droneStorage)
       .map((k) => droneStorage[k])
@@ -34,17 +36,17 @@ export class InMemoryDroneRepository extends DroneRepository {
     return drones
   }
 
-  findById(droneId: string): Drone | null {
+  async findById(droneId: string): Promise<Drone | null> {
     return droneStorage[droneId] || null
   }
 
   async loadItem(droneId: string, medicamentId: string): Promise<boolean> {
     let row:
       | {
-          droneId: string
-          medicamentId: string
-          quantity: number
-        }
+      droneId: string
+      medicamentId: string
+      quantity: number
+    }
       | undefined = droneToMedicamentJoin.find(
       (join) => join.droneId === droneId && join.medicamentId === medicamentId
     )
@@ -53,7 +55,7 @@ export class InMemoryDroneRepository extends DroneRepository {
       row = {
         droneId,
         medicamentId,
-        quantity: 0,
+        quantity: 0
       }
     }
     row.quantity++
@@ -86,7 +88,7 @@ export class InMemoryDroneRepository extends DroneRepository {
         }
         return {
           medicament,
-          quantity: join.quantity,
+          quantity: join.quantity
         }
       })
     )

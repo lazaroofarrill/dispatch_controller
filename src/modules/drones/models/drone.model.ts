@@ -1,6 +1,6 @@
-import { DroneModelEnum } from "../enums/drone-model.enum"
-import { DroneStateEnum } from "../enums/drone-state.enum"
-import { CommonSchema } from "../../../common/models/common.schema"
+import { DroneModelEnum } from '../enums/drone-model.enum'
+import { DroneStateEnum } from '../enums/drone-state.enum'
+import { CommonSchema } from '../../../common/models/common.schema'
 
 export class Drone extends CommonSchema {
   serialNumber: string

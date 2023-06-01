@@ -1,5 +1,5 @@
-import { ErrorRequestHandler } from "express"
-import { HttpException } from "../exceptions/HttpExceptions"
+import { ErrorRequestHandler } from 'express'
+import { HttpException } from '../exceptions/HttpExceptions'
 
 const exceptionsFilter: ErrorRequestHandler = (err, req, res, next) => {
   if (err instanceof HttpException) {

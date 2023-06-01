@@ -12,6 +12,7 @@ import {
   Medicament
 } from "../../src/modules/medicaments/models/medicament.model"
 import { randomUUID } from "crypto"
+import { Drone } from "../../src/modules/drones/models/drone.model"
 
 let app: Express
 
@@ -38,16 +39,16 @@ describe("Load Drone", function() {
         weightLimit: 100
       },
       {
-        batteryCapacity: 80,
+        batteryCapacity: 50,
         model: DroneModelEnum.Lightweight,
         serialNumber: randomUUID(),
         state: DroneStateEnum.IDLE,
-        weightLimit: 100
+        weightLimit: 500
       }
     ]
 
     //Register drone
-    const [drone1, drone2] = await Promise.all(
+    const [drone1, drone2, drone3] = await Promise.all(
       createDroneDtos.map(
         createDroneDto =>
           request(app)
@@ -55,7 +56,7 @@ describe("Load Drone", function() {
             .send(createDroneDto)
             .expect(201)
             .then(response => response.body))
-    )
+    ) as Drone[]
 
     expect(isUUID(drone1.id)).toBe(true)
     expect(drone1).toMatchObject(createDroneDtos[0])
@@ -86,7 +87,7 @@ describe("Load Drone", function() {
     expect(createdMedicaments[0]).toMatchObject(createMedicamentsDtos[0])
     expect(createdMedicaments[1]).toMatchObject(createMedicamentsDtos[1])
 
-    // Load Drone
+    // Load drone 1
     await request(app)
       .patch(`/drones/${drone1.id}/items/load/${createdMedicaments[0].id}`)
       .expect(200)
@@ -97,7 +98,7 @@ describe("Load Drone", function() {
       .get(`/drones/${drone1.id}/items`)
       .expect(200)
 
-    //Exceed drone capacity
+    //Exceed drone 1 capacity
     await request(app)
       .patch(`/drones/${drone1.id}/items/load/${createdMedicaments[0].id}`)
       .expect(200)
@@ -109,6 +110,14 @@ describe("Load Drone", function() {
       .expect({
         "status": 400,
         "message": "Weight limit of the drone has been reached"
+      })
+
+    //Check battery level for drone 2
+    await request(app)
+      .get(`/drones/${drone2.id}/battery`)
+      .expect(200)
+      .expect({
+        batteryCapacity: drone2.batteryCapacity
       })
   })
 })

@@ -1,4 +1,4 @@
-import { Medicament } from "../models/medicament.model"
+import { Medicament } from '../models/medicament.model'
 
 export abstract class MedicamentRepository {
   abstract save(medicine: Medicament): Medicament
