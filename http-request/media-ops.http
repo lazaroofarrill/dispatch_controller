@@ -1,0 +1,16 @@
+### Get upload url
+GET {{host}}/media/presigned-url
+
+### Get display url
+GET {{host}}/media/0fcfa097-a6cd-4c49-a4e8-92a55e035331
+
+>> stored_image.png
+
+### Upload image
+PUT http://localhost:9000/dispatch-controller/0fcfa097-a6cd-4c49-a4e8-92a55e035331?
+    X-Amz-Algorithm=AWS4-HMAC-SHA256&
+    X-Amz-Credential=0ogbCjn2lbXLqfgh%2F20230601%2Fus-east-1%2Fs3%2Faws4_request&
+    X-Amz-Date=20230601T211632Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&
+    X-Amz-Signature=b93672b2fc4d795e6a85e000b7d3e8687aed4f3c7d6080b02610354ca9c5e516
+
+< rsc/background.png

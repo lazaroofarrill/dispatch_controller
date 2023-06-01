@@ -13,6 +13,10 @@ import {
 } from '../../src/modules/medicaments/models/medicament.model'
 import { randomUUID } from 'crypto'
 import { Drone } from '../../src/modules/drones/models/drone.model'
+import * as path from 'path'
+import axios from 'axios'
+import * as fs from 'fs'
+import FormData from 'form-data'
 
 
 let app: Express
@@ -23,6 +27,8 @@ beforeAll(async () => {
 })
 
 describe('Load Drone', function() {
+  jest.setTimeout(10000)
+
   it('should load a drone with medicine', async () => {
     const createDroneDtos: CreateDroneDto[] = [
       {
@@ -62,16 +68,60 @@ describe('Load Drone', function() {
     expect(isUUID(drone1.id)).toBe(true)
     expect(drone1).toMatchObject(createDroneDtos[0])
 
+    //Upload medicament images
+    const imagePaths = [
+      path.resolve('static/img1.png'),
+      path.resolve('static/img2.jpg')
+    ]
+
+    const uploadDtos = await Promise.all(
+      new Array(2)
+        .fill(0)
+        .map(() =>
+          request(app)
+            .get('/media/presigned-url')
+            .expect(200)
+            .then(result => {
+              expect(result.body).toMatchObject({
+                url: expect.any(String),
+                key: expect.any(String)
+              })
+              return {
+                url: result.body.url,
+                key: result.body.key
+              }
+            })))
+
+
+    const uploadImageKeys = await Promise.all(
+      uploadDtos.map(async (uploadDto, idx) => {
+        const fileName = path.basename(imagePaths[idx])
+        const readStream = fs.createReadStream(imagePaths[idx])
+        const formData = new FormData()
+        formData.append('file', readStream, fileName)
+        await axios.put(uploadDto.url, formData)
+          .then((response) => {
+            expect(response.status).toBe(200)
+          })
+
+        return uploadDto.key
+      })
+    )
+
+
+    //Create medicaments
     const createMedicamentsDtos: CreateMedicamentDto[] = [
       {
-        code: 'CZP_01', image: 'picsum/1', name: 'Clonazepam', weight: 250
+        code: 'CZP_01',
+        image: uploadImageKeys[0],
+        name: 'Clonazepam',
+        weight: 250
       },
       {
-        code: 'VCT', image: 'picsum/2', name: 'Victorious', weight: 35
+        code: 'VCT', image: uploadImageKeys[1], name: 'Victorious', weight: 35
       }
     ]
 
-    //Create medicaments
     const createdMedicaments: Medicament[] = await Promise.all(
       createMedicamentsDtos.map((medicamentDto) => {
         return request(app)

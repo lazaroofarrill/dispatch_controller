@@ -2,6 +2,8 @@ import { Container, Service } from 'typedi'
 import express from 'express'
 import { DroneService } from './drone.service'
 import { CreateDroneDto } from './dtos/create-drone.dto'
+import { validateOutput } from '../../common/validation/validator'
+import { GetDroneDto } from './dtos/get-drone-dto'
 
 const droneRouter = express.Router()
 
@@ -12,6 +14,7 @@ export class DroneController {
 
   registerDrone(createDroneDto: CreateDroneDto) {
     return this.droneService.registerDrone(createDroneDto)
+      .then(drone => validateOutput(GetDroneDto, drone).then(() => drone))
   }
 
   loadItem(droneId: string, medicamentId: string) {

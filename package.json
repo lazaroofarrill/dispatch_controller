@@ -17,14 +17,16 @@
     "typeorm": "typeorm-ts-node-esm -d src/common/adapters/storage/typeorm/data-source.ts"
   },
   "dependencies": {
-    "@types/node": "^20.2.5",
     "@types/uuid": "^9.0.1",
+    "axios": "^1.4.0",
     "body-parser": "^1.20.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "dotenv": "^16.1.1",
     "express": "^4.18.2",
+    "formidable": "v3",
     "jest-extended": "^3.2.4",
+    "minio": "^7.1.1",
     "node-cron": "^3.0.2",
     "pg": "^8.11.0",
     "reflect-metadata": "^0.1.13",
@@ -49,5 +51,10 @@
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1"
   },
-  "type": "module"
+  "type": "module",
+  "engines": {
+    "npm": "please-use-yarn",
+    "yarn": ">= 1.20",
+    "node": ">=18"
+  }
 }

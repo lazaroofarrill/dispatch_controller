@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsInt,
   IsNumber,
+  IsPositive,
   IsString,
   IsUUID,
   Max,
@@ -14,6 +15,8 @@ import { Drone } from '../models/drone.model'
 
 export class GetDroneDto implements Partial<Drone> {
   @IsInt()
+  @IsPositive()
+  @Max(100)
   batteryCapacity: number
 
   @IsUUID()
