@@ -8,7 +8,7 @@ import { Service } from 'typedi'
 import { InternalServerError } from '../../../common/exceptions/HttpExceptions'
 import {
   getAsyncRepo
-} from '../../../common/middlewares/typeorm-transaction-middleware'
+} from '../../../common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
 
 @Service()
 export class TypeormMedicamentRepository extends MedicamentRepository {

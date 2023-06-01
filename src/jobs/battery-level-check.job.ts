@@ -1,7 +1,6 @@
 import { Container } from 'typedi'
 import { Logger } from '../common/logging/logger'
 import cron from 'node-cron'
-import '../common/dependencies'
 import { dataSource } from '../common/adapters/storage/typeorm/data-source'
 import {
   DroneEntity
@@ -24,6 +23,6 @@ const checkBatteryLevel = async () => {
 
 //Schedule job to run every minute
 dataSource.initialize().then(() => {
-  cron.schedule(' * * * * *', checkBatteryLevel, { runOnInit: true })
+  cron.schedule('* * * * *', checkBatteryLevel, { runOnInit: true })
 })
 

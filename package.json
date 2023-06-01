@@ -12,7 +12,7 @@
     "build": "tsc",
     "lint": "eslint src --fix",
     "clean": "rimraf build",
-    "format": "prettier src -w",
+    "format": "prettier src tests -w",
     "test": "node --experimental-vm-modules $(yarn bin jest)",
     "typeorm": "typeorm-ts-node-esm -d src/common/adapters/storage/typeorm/data-source.ts"
   },

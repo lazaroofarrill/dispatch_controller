@@ -7,7 +7,8 @@ const medicamentRouter = express.Router()
 
 @Service()
 export class MedicamentController {
-  constructor(private readonly medicamentService: MedicamentService) {}
+  constructor(private readonly medicamentService: MedicamentService) {
+  }
 
   createMedicament(createMedicamentDto: CreateMedicamentDto) {
     return this.medicamentService.saveMedicament(createMedicamentDto)

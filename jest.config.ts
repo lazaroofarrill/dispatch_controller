@@ -10,7 +10,7 @@ const config: Config = {
     '<rootDir>/src'
   ],
   preset: 'ts-jest',
-  setupFiles: ['reflect-metadata'],
+  setupFiles: ['reflect-metadata', './tests/setup-tests.ts'],
   setupFilesAfterEnv: ['jest-extended/all']
 }
 

@@ -13,18 +13,13 @@ import {
 } from '../../src/modules/medicaments/models/medicament.model'
 import { randomUUID } from 'crypto'
 import { Drone } from '../../src/modules/drones/models/drone.model'
-import {
-  dataSource
-} from '../../src/common/adapters/storage/typeorm/data-source'
 
-import '../test-dependencies-overrides'
 
 let app: Express
 
 beforeAll(async () => {
   app = express()
   app.use(appRouter)
-  return dataSource.initialize()
 })
 
 describe('Load Drone', function() {
@@ -54,7 +49,7 @@ describe('Load Drone', function() {
     ]
 
     //Register drone
-    const [drone1, drone2, drone3] = await Promise.all(
+    const [drone1, drone2, _drone3] = await Promise.all(
       createDroneDtos.map(
         createDroneDto =>
           request(app)

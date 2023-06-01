@@ -8,7 +8,7 @@ import {
   IsUUID,
   Max,
   MaxLength,
-  Min,
+  Min
 } from 'class-validator'
 import { Drone } from '../models/drone.model'
 

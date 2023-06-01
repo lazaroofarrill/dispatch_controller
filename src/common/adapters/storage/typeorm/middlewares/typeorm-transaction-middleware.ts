@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { AsyncLocalStorage } from 'async_hooks'
-import { dataSource } from '../adapters/storage/typeorm/data-source'
+import { dataSource } from '../data-source'
 import { EntityManager, ObjectLiteral, QueryRunner, Repository } from 'typeorm'
 import { EntityTarget } from 'typeorm/browser'
 
@@ -32,6 +32,8 @@ export const typeormTransactionMiddleware: RequestHandler =
         res.on('finish', async () => {
           return queryRunner.commitTransaction()
         })
+
+        res.on('error', () => queryRunner.rollbackTransaction())
 
         await next()
       })

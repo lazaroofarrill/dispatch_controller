@@ -12,7 +12,6 @@ import { CreateDroneDto } from './dtos/create-drone.dto'
 import { Drone } from './models/drone.model'
 import { GetBatteryLevelDto } from './dtos/get-battery-level.dto'
 import { DroneRepository } from './repositories/drone-repository'
-import '../../common/dependencies'
 import { DroneStateEnum } from './enums/drone-state.enum'
 import {
   MedicamentRepository

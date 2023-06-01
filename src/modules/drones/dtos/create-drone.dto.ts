@@ -5,7 +5,7 @@ import {
   IsString,
   Max,
   MaxLength,
-  Min,
+  Min
 } from 'class-validator'
 import { DroneModelEnum } from '../enums/drone-model.enum'
 import { DroneStateEnum } from '../enums/drone-state.enum'

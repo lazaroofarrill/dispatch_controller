@@ -47,7 +47,10 @@ droneRouter.post('/', (req, res, next) =>
       res.status(201)
       res.send(result)
     })
-    .catch((err) => next(err))
+    .catch((err) => {
+      console.log(err)
+      next(err)
+    })
 )
 
 droneRouter.get('/:id/battery', (req, res, next) =>

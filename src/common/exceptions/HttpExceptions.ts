@@ -17,4 +17,5 @@ export class BadRequestException extends HttpException {
   }
 }
 
-export class InternalServerError extends HttpException {}
+export class InternalServerError extends HttpException {
+}
