@@ -2,15 +2,13 @@ import './common/dependencies'
 import express from 'express'
 import 'reflect-metadata'
 import { appRouter } from './modules/router'
-import {
-  typeormTransactionMiddleware
-} from './common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
+import { typeormTransactionMiddleware } from './common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
 import { Container } from 'typedi'
 import { DataSource } from 'typeorm'
 import { Logger } from './common/logging/logger'
 import {
   minioClient,
-  S3_BUCKET_TOKEN
+  S3_BUCKET_TOKEN,
 } from './common/adapters/storage/minio/minio-client'
 
 const app = express()

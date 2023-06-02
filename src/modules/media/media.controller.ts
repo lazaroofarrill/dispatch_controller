@@ -1,10 +1,8 @@
-import { Container, Service } from 'typedi'
-import express from 'express'
+import { Service } from 'typedi'
 import { MediaService } from './media.service'
 
-
 @Service()
-export  class MediaController {
+export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
   async getUploadUrl(key?: string): Promise<{ url: string }> {
@@ -15,5 +13,3 @@ export  class MediaController {
     return this.mediaService.getPublicUrl(key)
   }
 }
-
-

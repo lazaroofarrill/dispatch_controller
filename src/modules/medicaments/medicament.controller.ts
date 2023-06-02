@@ -1,8 +1,6 @@
-import { Container, Service } from 'typedi'
+import { Service } from 'typedi'
 import { MedicamentService } from './medicament.service'
 import { CreateMedicamentDto } from './dtos/create-medicament.dto'
-import express from 'express'
-
 
 @Service()
 export class MedicamentController {
@@ -16,5 +14,3 @@ export class MedicamentController {
     return this.medicamentService.listMedicaments()
   }
 }
-
-

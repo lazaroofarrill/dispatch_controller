@@ -1,15 +1,12 @@
-import { Container, Service } from 'typedi'
-import express from 'express'
+import { Service } from 'typedi'
 import { DroneService } from './drone.service'
 import { CreateDroneDto } from './dtos/create-drone.dto'
 import { validateOutput } from '../../common/validation/validator'
 import { GetDroneDto } from './dtos/get-drone-dto'
 
-
 @Service()
 export class DroneController {
-  constructor(private readonly droneService: DroneService) {
-  }
+  constructor(private readonly droneService: DroneService) {}
 
   registerDrone(createDroneDto: CreateDroneDto) {
     return this.droneService
@@ -33,5 +30,3 @@ export class DroneController {
     return this.droneService.checkBatteryLevel(droneId)
   }
 }
-
-
