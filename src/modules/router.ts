@@ -1,9 +1,9 @@
 import express from 'express'
-import { droneRouter } from './drones/drone.controller'
-import { medicamentRouter } from './medicaments/medicament.controller'
 import bodyParser from 'body-parser'
 import { exceptionsFilter } from '../common/filters/exceptions-filter'
-import { mediaRouter } from './media/media.controller'
+import { droneRouter } from './drones/drone.router'
+import { medicamentRouter } from './medicaments/medicament.router'
+import { mediaRouter } from './media/media.router'
 
 const appRouter = express.Router()
 
