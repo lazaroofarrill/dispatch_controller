@@ -1,14 +1,7 @@
 import { DataSource } from 'typeorm'
 import 'dotenv/config'
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
-import { entities } from './entities'
+import { commonDataSourceOptions } from './common-data-source.options'
 import { EnvVars } from '../../../../env-vars'
-import { fileURLToPath } from 'url'
-import * as path from 'path'
-
-const __filename = fileURLToPath(import.meta.url)
-
-const __dirname = path.dirname(__filename)
 
 export const dataSource: DataSource = new DataSource({
   host: process.env[EnvVars.POSTGRES_HOST],
@@ -17,8 +10,6 @@ export const dataSource: DataSource = new DataSource({
   username: process.env[EnvVars.POSTGRES_USER],
   password: process.env[EnvVars.POSTGRES_PASSWORD],
   type: 'postgres',
-  entities,
+  ...commonDataSourceOptions,
   synchronize: false,
-  namingStrategy: new SnakeNamingStrategy(),
-  migrations: [`${path.resolve(__dirname, './migrations')}/*.ts`],
 })
