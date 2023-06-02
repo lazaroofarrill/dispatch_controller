@@ -64,10 +64,13 @@ droneRouter.get('/:id/battery', (req, res, next) =>
 )
 
 droneRouter.patch('/:id/items/load/:medicamentId', (req, res, next) =>
-  droneController
-    .loadItem(req.params.id, req.params.medicamentId)
-    .then((result) => res.send(result))
-    .catch((err) => next(err))
+  {
+    console.log(req.params)
+    return droneController
+      .loadItem(req.params.id, req.params.medicamentId)
+      .then((result) => res.send(result))
+      .catch((err) => next(err))
+  }
 )
 
 droneRouter.get('/:id/items', (req, res, next) =>

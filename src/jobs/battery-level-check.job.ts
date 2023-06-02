@@ -1,13 +1,15 @@
 import { Container } from 'typedi'
 import { Logger } from '../common/logging/logger'
 import cron from 'node-cron'
-import { dataSource } from '../common/adapters/storage/typeorm/data-source'
 import {
   DroneEntity
 } from '../common/adapters/storage/typeorm/entities/drone.entity'
 import { TypeormLogger } from '../common/logging/typeorm-logger'
+import { DataSource } from 'typeorm'
 
 Container.set(Logger, Container.get(TypeormLogger))
+
+const dataSource = Container.get(DataSource)
 
 const checkBatteryLevel = async () => {
   const logger = Container.get(Logger)

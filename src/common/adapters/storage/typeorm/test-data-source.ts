@@ -1,13 +1,12 @@
 import { DataSource } from 'typeorm'
-import 'dotenv/config'
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
 import { entities } from './entities'
 
-export const dataSource: DataSource = new DataSource({
-  url: process.env.DATABASE_URL,
+export const testDataSource: DataSource = new DataSource({
+  url: process.env.TEST_DATABASE_URL,
   type: 'postgres',
   entities,
   synchronize: true,
+  dropSchema: true,
   namingStrategy: new SnakeNamingStrategy()
 })
-

@@ -1,8 +1,14 @@
 import { RequestHandler } from 'express'
 import { AsyncLocalStorage } from 'async_hooks'
-import { dataSource } from '../data-source'
-import { EntityManager, ObjectLiteral, QueryRunner, Repository } from 'typeorm'
+import {
+  DataSource,
+  EntityManager,
+  ObjectLiteral,
+  QueryRunner,
+  Repository
+} from 'typeorm'
 import { EntityTarget } from 'typeorm/browser'
+import { Container } from 'typedi'
 
 export const asyncLocalStorage: AsyncLocalStorage<{
   [TYPEORM_TRANSACTION_MANAGER]: EntityManager | undefined
@@ -24,16 +30,21 @@ export const typeormTransactionMiddleware: RequestHandler =
         TYPEORM_TRANSACTION_MANAGER: undefined
       },
       async () => {
+        const dataSource = Container.get(DataSource)
         const queryRunner = dataSource.createQueryRunner()
         await queryRunner.startTransaction()
         asyncLocalStorage.getStore()![TYPEORM_TRANSACTION_MANAGER] = queryRunner.manager
         asyncLocalStorage.getStore()![TYPEORM_QUERY_RUNNER] = queryRunner
 
         res.on('finish', async () => {
-          return queryRunner.commitTransaction()
+          return new Promise((resolve, reject) => {
+            if (res.statusCode < 400) {
+              return queryRunner.commitTransaction().then(() => resolve(true))
+            } else {
+              return queryRunner.rollbackTransaction().then(() => resolve(false))
+            }
+          }).then(() => queryRunner.release())
         })
-
-        res.on('error', () => queryRunner.rollbackTransaction())
 
         await next()
       })

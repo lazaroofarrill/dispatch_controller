@@ -1,16 +1,20 @@
 import { Logger } from './logger'
 import { Service } from 'typedi'
-import { Repository } from 'typeorm'
+import { DataSource, Repository } from 'typeorm'
 import {
   LogLevel,
   LogsEntity
 } from '../adapters/storage/typeorm/entities/logs.entity'
-import { dataSource } from '../adapters/storage/typeorm/data-source'
 import { randomUUID } from 'crypto'
 
 @Service()
 export class TypeormLogger extends Logger {
-  logsRepository: Repository<LogsEntity> = dataSource.getRepository(LogsEntity)
+  constructor(dataSource: DataSource) {
+    super()
+    this.logsRepository = dataSource.getRepository(LogsEntity)
+  }
+
+  logsRepository: Repository<LogsEntity>
 
   info(message: any) {
     return this.writeLog(message, LogLevel.INFO)

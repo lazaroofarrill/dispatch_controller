@@ -1,5 +1,4 @@
-import express, { Express } from 'express'
-import { appRouter } from '../../src/modules/router'
+import { Express } from 'express'
 import request from 'supertest'
 import { CreateDroneDto } from '../../src/modules/drones/dtos/create-drone.dto'
 import { DroneModelEnum } from '../../src/modules/drones/enums/drone-model.enum'
@@ -17,16 +16,17 @@ import * as path from 'path'
 import axios from 'axios'
 import * as fs from 'fs'
 import FormData from 'form-data'
+import { scaffoldTests } from '../create-server'
 
 
+const { createServer } = scaffoldTests()
 let app: Express
 
 beforeAll(async () => {
-  app = express()
-  app.use(appRouter)
+  app = await createServer()
 })
 
-describe('Load Drone', function() {
+describe('Load Drone', () => {
   jest.setTimeout(10000)
 
   it('should load a drone with medicine', async () => {
@@ -49,13 +49,13 @@ describe('Load Drone', function() {
         batteryCapacity: 50,
         model: DroneModelEnum.Lightweight,
         serialNumber: randomUUID(),
-        state: DroneStateEnum.IDLE,
+        state: DroneStateEnum.DELIVERED,
         weightLimit: 500
       }
     ]
 
     //Register drone
-    const [drone1, drone2, _drone3] = await Promise.all(
+    const [drone1, drone2, drone3] = await Promise.all(
       createDroneDtos.map(
         createDroneDto =>
           request(app)
@@ -64,6 +64,7 @@ describe('Load Drone', function() {
             .expect(201)
             .then(response => response.body))
     ) as Drone[]
+
 
     expect(isUUID(drone1.id)).toBe(true)
     expect(drone1).toMatchObject(createDroneDtos[0])
@@ -131,12 +132,14 @@ describe('Load Drone', function() {
           .then((result) => {
             return result.body
           })
-
       }))
 
     expect(createdMedicaments.length).toBe(2)
     expect(createdMedicaments[0]).toMatchObject(createMedicamentsDtos[0])
     expect(createdMedicaments[1]).toMatchObject(createMedicamentsDtos[1])
+
+    //Get stored image
+    expect(createdMedicaments)
 
     // Load drone 1
     await request(app)
@@ -159,8 +162,8 @@ describe('Load Drone', function() {
       .patch(`/drones/${drone1.id}/items/load/${createdMedicaments[0].id}`)
       .expect(400)
       .expect({
-        'status': 400,
-        'message': 'Weight limit of the drone has been reached'
+        status: 400,
+        message: 'Weight limit of the drone has been reached'
       })
 
     //Check battery level for drone 2
@@ -169,6 +172,30 @@ describe('Load Drone', function() {
       .expect(200)
       .expect({
         batteryCapacity: drone2.batteryCapacity
+      })
+
+    //Input invalid id when checking battery level
+    await request(app)
+      .get(`/drones/invalid-uuid/battery`)
+      .expect(400)
+      .expect({ status: 400, message: 'droneId must be a valid UUID' })
+
+    // List medicaments
+    await request(app)
+      .get('/medicaments')
+      .expect(200)
+      .then((result) => {
+        expect(result.body.map((m: Medicament) => m.id).sort())
+          .toEqual(createdMedicaments.map(m => m.id).sort())
+      })
+
+    // List available drones
+    await request(app)
+      .get('/drones/')
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.map((b: any) => b.id).sort())
+          .toEqual([drone1, drone2].map(d => d.id).sort())
       })
   })
 })

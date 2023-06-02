@@ -1,13 +1,16 @@
-import { Service } from 'typedi'
+import { Container, Service } from 'typedi'
 import { minioClient } from '../../common/adapters/storage/minio/minio-client'
 import { randomUUID } from 'crypto'
 import { isUUID } from 'class-validator'
 import { BadRequestException } from '../../common/exceptions/HttpExceptions'
+import {
+  S3_BUCKET_TOKEN
+} from '../../common/adapters/storage/minio/common-options'
 
 
 @Service()
 export class MediaService {
-  readonly bucket = process.env.S3_BUCKET || ''
+  readonly bucket = Container.get<string>(S3_BUCKET_TOKEN)
 
   async getUploadUrl(key?: string) {
     if (!key) {
