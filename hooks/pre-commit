@@ -1,7 +1,11 @@
 #!/bin/bash
 
 echo "Formatting project"
-{yarn format && echo "Project formatted"} || {echo "Error formatting project" && exit }
+{
+  yarn format && echo "Project formatted"
+} || {
+  echo "Error formatting project" && exit
+}
 
 #Add modified files to commit
 git add .
