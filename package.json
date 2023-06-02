@@ -8,12 +8,12 @@
   "scripts": {
     "start:dev": "nodemon src/app.ts",
     "job:drone-battery:dev": "nodemon src/jobs/battery-level-check.job.ts",
-    "start": "node --es-module-specifier-resolution=node build/app.js",
+    "start": "node --es-module-specifier-resolution=node build/src/app.js",
     "build": "tsc",
     "lint": "eslint src --fix",
     "clean": "rimraf build",
     "format": "prettier src tests -w",
-    "test": "node --experimental-vm-modules $(yarn bin jest)",
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "typeorm": "typeorm-ts-node-esm -d src/common/adapters/storage/typeorm/data-source.ts"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "express": "^4.18.2",
     "formidable": "v3",
     "jest-extended": "^3.2.4",
+    "joi": "^17.9.2",
     "minio": "^7.1.1",
     "node-cron": "^3.0.2",
     "pg": "^8.11.0",

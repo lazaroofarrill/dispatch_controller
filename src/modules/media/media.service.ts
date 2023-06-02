@@ -1,12 +1,11 @@
 import { Container, Service } from 'typedi'
-import { minioClient } from '../../common/adapters/storage/minio/minio-client'
+import {
+  minioClient,
+  S3_BUCKET_TOKEN
+} from '../../common/adapters/storage/minio/minio-client'
 import { randomUUID } from 'crypto'
 import { isUUID } from 'class-validator'
 import { BadRequestException } from '../../common/exceptions/HttpExceptions'
-import {
-  S3_BUCKET_TOKEN
-} from '../../common/adapters/storage/minio/common-options'
-
 
 @Service()
 export class MediaService {
@@ -20,21 +19,22 @@ export class MediaService {
         throw new BadRequestException('key must be a valid uuid')
       }
     }
-    const url = await minioClient.presignedUrl('PUT', this.bucket, key)
-      .catch(err => {
+    const url = await minioClient
+      .presignedUrl('PUT', this.bucket, key)
+      .catch((err) => {
         console.log('the key was', key)
         console.log(err)
         throw err
       })
     return {
       key,
-      url
+      url,
     }
   }
 
   async getPublicUrl(key: string) {
     return {
-      url: await minioClient.presignedUrl('GET', this.bucket, key)
+      url: await minioClient.presignedUrl('GET', this.bucket, key),
     }
   }
 }

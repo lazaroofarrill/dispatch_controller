@@ -5,7 +5,7 @@ export enum LogLevel {
   DEBUG = 'DEBUG',
   ERROR = 'ERROR',
   LOG = 'LOG',
-  WARNING = 'WARNING'
+  WARNING = 'WARNING',
 }
 
 @Entity('logs')

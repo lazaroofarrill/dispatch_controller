@@ -13,8 +13,9 @@ export class DroneController {
   }
 
   registerDrone(createDroneDto: CreateDroneDto) {
-    return this.droneService.registerDrone(createDroneDto)
-      .then(drone => validateOutput(GetDroneDto, drone).then(() => drone))
+    return this.droneService
+      .registerDrone(createDroneDto)
+      .then((drone) => validateOutput(GetDroneDto, drone).then(() => drone))
   }
 
   loadItem(droneId: string, medicamentId: string) {
@@ -64,13 +65,10 @@ droneRouter.get('/:id/battery', (req, res, next) =>
 )
 
 droneRouter.patch('/:id/items/load/:medicamentId', (req, res, next) =>
-  {
-    console.log(req.params)
-    return droneController
-      .loadItem(req.params.id, req.params.medicamentId)
-      .then((result) => res.send(result))
-      .catch((err) => next(err))
-  }
+  droneController
+    .loadItem(req.params.id, req.params.medicamentId)
+    .then((result) => res.send(result))
+    .catch((err) => next(err))
 )
 
 droneRouter.get('/:id/items', (req, res, next) =>

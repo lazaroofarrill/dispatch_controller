@@ -3,7 +3,7 @@ import { Service } from 'typedi'
 import { DataSource, Repository } from 'typeorm'
 import {
   LogLevel,
-  LogsEntity
+  LogsEntity,
 } from '../adapters/storage/typeorm/entities/logs.entity'
 import { randomUUID } from 'crypto'
 
@@ -20,7 +20,6 @@ export class TypeormLogger extends Logger {
     return this.writeLog(message, LogLevel.INFO)
   }
 
-
   log(message: any) {
     return this.writeLog(message, LogLevel.LOG)
   }
@@ -35,7 +34,10 @@ export class TypeormLogger extends Logger {
 
   private writeLog(message: any, logLevel: LogLevel) {
     const newLog: LogsEntity = {
-      id: randomUUID(), logLevel: logLevel, message: message, time: new Date()
+      id: randomUUID(),
+      logLevel: logLevel,
+      message: message,
+      time: new Date(),
     }
     return this.logsRepository.save(newLog)
   }

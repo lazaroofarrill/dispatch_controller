@@ -10,6 +10,6 @@ export const mockDrone = (): Drone => {
     model: faker.helpers.arrayElement(Object.values(DroneModelEnum)),
     serialNumber: faker.string.alpha({ length: { min: 1, max: 100 } }),
     state: faker.helpers.arrayElement(Object.values(DroneStateEnum)),
-    weightLimit: faker.number.float({ min: 0, max: 500 })
+    weightLimit: faker.number.float({ min: 0, max: 500 }),
   }
 }

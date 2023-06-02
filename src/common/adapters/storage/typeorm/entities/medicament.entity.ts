@@ -1,6 +1,4 @@
-import {
-  Medicament
-} from '../../../../../modules/medicaments/models/medicament.model'
+import { Medicament } from '../../../../../modules/medicaments/models/medicament.model'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { DroneMedicamentJoinEntity } from './drone-medicament-join.entity'
 import { Relation } from 'typeorm/browser'
@@ -22,14 +20,20 @@ export class MedicamentEntity implements Medicament {
   @Column('double precision')
   weight: number
 
-  @OneToMany(() => DroneMedicamentJoinEntity,
-    (droneToMedicamentJoin) => droneToMedicamentJoin.medicament)
+  @OneToMany(
+    () => DroneMedicamentJoinEntity,
+    (droneToMedicamentJoin) => droneToMedicamentJoin.medicament
+  )
   droneMedicamentJoin: Relation<DroneMedicamentJoinEntity[]>
 
   toMedicament(): Medicament {
     const { id, code, image, name, weight } = this
     return {
-      code, id, image, name, weight
+      code,
+      id,
+      image,
+      name,
+      weight,
     }
   }
 }

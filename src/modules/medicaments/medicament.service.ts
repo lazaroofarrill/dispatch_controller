@@ -6,8 +6,7 @@ import { validateInput } from '../../common/validation/validator'
 
 @Service()
 export class MedicamentService {
-  constructor(private readonly medicamentRepository: MedicamentRepository) {
-  }
+  constructor(private readonly medicamentRepository: MedicamentRepository) {}
 
   async listMedicaments() {
     return this.medicamentRepository.find()

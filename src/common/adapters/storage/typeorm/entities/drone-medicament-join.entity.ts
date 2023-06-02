@@ -10,7 +10,10 @@ export class DroneMedicamentJoinEntity {
   @PrimaryColumn()
   medicamentId: string
 
-  @ManyToOne(() => MedicamentEntity, (medicament) => medicament.droneMedicamentJoin)
+  @ManyToOne(
+    () => MedicamentEntity,
+    (medicament) => medicament.droneMedicamentJoin
+  )
   medicament?: Relation<MedicamentEntity>
 
   @ManyToOne(() => DroneEntity, (drone) => drone.droneMedicamentJoin)

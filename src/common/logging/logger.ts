@@ -21,7 +21,7 @@ export class Logger {
   private timeStampMessage(message: any) {
     return {
       time: new Date().toISOString(),
-      message
+      message,
     }
   }
 }

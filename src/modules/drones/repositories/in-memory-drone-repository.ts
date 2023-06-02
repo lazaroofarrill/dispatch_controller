@@ -3,9 +3,7 @@ import { Service } from 'typedi'
 import { DroneStateEnum } from '../enums/drone-state.enum'
 import { Drone } from '../models/drone.model'
 import { HttpException } from '../../../common/exceptions/HttpExceptions'
-import {
-  MedicamentRepository
-} from '../../medicaments/repositories/medicament.repository'
+import { MedicamentRepository } from '../../medicaments/repositories/medicament.repository'
 import { Medicament } from '../../medicaments/models/medicament.model'
 
 const droneStorage: Record<string, Drone> = {}
@@ -43,10 +41,10 @@ export class InMemoryDroneRepository extends DroneRepository {
   async loadItem(droneId: string, medicamentId: string): Promise<boolean> {
     let row:
       | {
-      droneId: string
-      medicamentId: string
-      quantity: number
-    }
+          droneId: string
+          medicamentId: string
+          quantity: number
+        }
       | undefined = droneToMedicamentJoin.find(
       (join) => join.droneId === droneId && join.medicamentId === medicamentId
     )
@@ -55,7 +53,7 @@ export class InMemoryDroneRepository extends DroneRepository {
       row = {
         droneId,
         medicamentId,
-        quantity: 0
+        quantity: 0,
       }
     }
     row.quantity++
@@ -88,7 +86,7 @@ export class InMemoryDroneRepository extends DroneRepository {
         }
         return {
           medicament,
-          quantity: join.quantity
+          quantity: join.quantity,
         }
       })
     )

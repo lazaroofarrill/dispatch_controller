@@ -67,3 +67,4 @@ dist
 .idea
 build
 /http-request/medicament-image.png
+/coverage

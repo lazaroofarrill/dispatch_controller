@@ -5,17 +5,17 @@ import {
 } from '../src/common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
 import { Container } from 'typedi'
 import { DataSource } from 'typeorm'
-import { minioClient } from '../src/common/adapters/storage/minio/minio-client'
 import {
+  minioClient,
   S3_BUCKET_TOKEN
-} from '../src/common/adapters/storage/minio/common-options'
+} from '../src/common/adapters/storage/minio/minio-client'
 
 const dataSource = Container.get(DataSource)
 
 export const scaffoldTests = () => {
-
-  afterAll(() => {
-    return cleanUpS3()
+  afterAll(async () => {
+    await cleanUpS3()
+    await dataSource.destroy()
   })
 
   async function cleanUpS3() {
@@ -53,4 +53,3 @@ export const scaffoldTests = () => {
 
   return { createServer, cleanUpS3 }
 }
-

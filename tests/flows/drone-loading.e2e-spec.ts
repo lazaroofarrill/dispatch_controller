@@ -4,12 +4,8 @@ import { CreateDroneDto } from '../../src/modules/drones/dtos/create-drone.dto'
 import { DroneModelEnum } from '../../src/modules/drones/enums/drone-model.enum'
 import { DroneStateEnum } from '../../src/modules/drones/enums/drone-state.enum'
 import { isUUID } from 'class-validator'
-import {
-  CreateMedicamentDto
-} from '../../src/modules/medicaments/dtos/create-medicament.dto'
-import {
-  Medicament
-} from '../../src/modules/medicaments/models/medicament.model'
+import { CreateMedicamentDto } from '../../src/modules/medicaments/dtos/create-medicament.dto'
+import { Medicament } from '../../src/modules/medicaments/models/medicament.model'
 import { randomUUID } from 'crypto'
 import { Drone } from '../../src/modules/drones/models/drone.model'
 import * as path from 'path'
@@ -17,7 +13,6 @@ import axios from 'axios'
 import * as fs from 'fs'
 import FormData from 'form-data'
 import { scaffoldTests } from '../create-server'
-
 
 const { createServer } = scaffoldTests()
 let app: Express
@@ -36,35 +31,34 @@ describe('Load Drone', () => {
         model: DroneModelEnum.Heavyweight,
         serialNumber: randomUUID(),
         state: DroneStateEnum.IDLE,
-        weightLimit: 500
+        weightLimit: 500,
       },
       {
         batteryCapacity: 80,
         model: DroneModelEnum.Lightweight,
         serialNumber: randomUUID(),
         state: DroneStateEnum.IDLE,
-        weightLimit: 100
+        weightLimit: 100,
       },
       {
         batteryCapacity: 50,
         model: DroneModelEnum.Lightweight,
         serialNumber: randomUUID(),
         state: DroneStateEnum.DELIVERED,
-        weightLimit: 500
-      }
+        weightLimit: 500,
+      },
     ]
 
     //Register drone
-    const [drone1, drone2, drone3] = await Promise.all(
-      createDroneDtos.map(
-        createDroneDto =>
-          request(app)
-            .post('/drones')
-            .send(createDroneDto)
-            .expect(201)
-            .then(response => response.body))
-    ) as Drone[]
-
+    const [drone1, drone2, drone3] = (await Promise.all(
+      createDroneDtos.map((createDroneDto) =>
+        request(app)
+          .post('/drones')
+          .send(createDroneDto)
+          .expect(201)
+          .then((response) => response.body)
+      )
+    )) as Drone[]
 
     expect(isUUID(drone1.id)).toBe(true)
     expect(drone1).toMatchObject(createDroneDtos[0])
@@ -72,27 +66,26 @@ describe('Load Drone', () => {
     //Upload medicament images
     const imagePaths = [
       path.resolve('static/img1.png'),
-      path.resolve('static/img2.jpg')
+      path.resolve('static/img2.jpg'),
     ]
 
     const uploadDtos = await Promise.all(
-      new Array(2)
-        .fill(0)
-        .map(() =>
-          request(app)
-            .get('/media/presigned-url')
-            .expect(200)
-            .then(result => {
-              expect(result.body).toMatchObject({
-                url: expect.any(String),
-                key: expect.any(String)
-              })
-              return {
-                url: result.body.url,
-                key: result.body.key
-              }
-            })))
-
+      new Array(2).fill(0).map(() =>
+        request(app)
+          .get('/media/presigned-url')
+          .expect(200)
+          .then((result) => {
+            expect(result.body).toMatchObject({
+              url: expect.any(String),
+              key: expect.any(String),
+            })
+            return {
+              url: result.body.url,
+              key: result.body.key,
+            }
+          })
+      )
+    )
 
     const uploadImageKeys = await Promise.all(
       uploadDtos.map(async (uploadDto, idx) => {
@@ -100,15 +93,13 @@ describe('Load Drone', () => {
         const readStream = fs.createReadStream(imagePaths[idx])
         const formData = new FormData()
         formData.append('file', readStream, fileName)
-        await axios.put(uploadDto.url, formData)
-          .then((response) => {
-            expect(response.status).toBe(200)
-          })
+        await axios.put(uploadDto.url, formData).then((response) => {
+          expect(response.status).toBe(200)
+        })
 
         return uploadDto.key
       })
     )
-
 
     //Create medicaments
     const createMedicamentsDtos: CreateMedicamentDto[] = [
@@ -116,11 +107,14 @@ describe('Load Drone', () => {
         code: 'CZP_01',
         image: uploadImageKeys[0],
         name: 'Clonazepam',
-        weight: 250
+        weight: 250,
       },
       {
-        code: 'VCT', image: uploadImageKeys[1], name: 'Victorious', weight: 35
-      }
+        code: 'VCT',
+        image: uploadImageKeys[1],
+        name: 'Victorious',
+        weight: 35,
+      },
     ]
 
     const createdMedicaments: Medicament[] = await Promise.all(
@@ -132,7 +126,8 @@ describe('Load Drone', () => {
           .then((result) => {
             return result.body
           })
-      }))
+      })
+    )
 
     expect(createdMedicaments.length).toBe(2)
     expect(createdMedicaments[0]).toMatchObject(createMedicamentsDtos[0])
@@ -163,16 +158,13 @@ describe('Load Drone', () => {
       .expect(400)
       .expect({
         status: 400,
-        message: 'Weight limit of the drone has been reached'
+        message: 'Weight limit of the drone has been reached',
       })
 
     //Check battery level for drone 2
-    await request(app)
-      .get(`/drones/${drone2.id}/battery`)
-      .expect(200)
-      .expect({
-        batteryCapacity: drone2.batteryCapacity
-      })
+    await request(app).get(`/drones/${drone2.id}/battery`).expect(200).expect({
+      batteryCapacity: drone2.batteryCapacity,
+    })
 
     //Input invalid id when checking battery level
     await request(app)
@@ -185,8 +177,9 @@ describe('Load Drone', () => {
       .get('/medicaments')
       .expect(200)
       .then((result) => {
-        expect(result.body.map((m: Medicament) => m.id).sort())
-          .toEqual(createdMedicaments.map(m => m.id).sort())
+        expect(result.body.map((m: Medicament) => m.id).sort()).toEqual(
+          createdMedicaments.map((m) => m.id).sort()
+        )
       })
 
     // List available drones
@@ -194,8 +187,9 @@ describe('Load Drone', () => {
       .get('/drones/')
       .expect(200)
       .then(({ body }) => {
-        expect(body.map((b: any) => b.id).sort())
-          .toEqual([drone1, drone2].map(d => d.id).sort())
+        expect(body.map((b: any) => b.id).sort()).toEqual(
+          [drone1, drone2].map((d) => d.id).sort()
+        )
       })
   })
 })

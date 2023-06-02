@@ -1,11 +1,11 @@
 import { Service } from 'typedi'
 import {
   validateInput,
-  validateOutput
+  validateOutput,
 } from '../../common/validation/validator'
 import {
   BadRequestException,
-  HttpException
+  HttpException,
 } from '../../common/exceptions/HttpExceptions'
 import { isUUID } from 'class-validator'
 import { CreateDroneDto } from './dtos/create-drone.dto'
@@ -13,17 +13,14 @@ import { Drone } from './models/drone.model'
 import { GetBatteryLevelDto } from './dtos/get-battery-level.dto'
 import { DroneRepository } from './repositories/drone-repository'
 import { DroneStateEnum } from './enums/drone-state.enum'
-import {
-  MedicamentRepository
-} from '../medicaments/repositories/medicament.repository'
+import { MedicamentRepository } from '../medicaments/repositories/medicament.repository'
 
 @Service()
 export class DroneService {
   constructor(
     private readonly droneRepository: DroneRepository,
     private readonly medicamentRepository: MedicamentRepository
-  ) {
-  }
+  ) {}
 
   async registerDrone(createDroneDto: CreateDroneDto) {
     await validateInput(CreateDroneDto, createDroneDto)
@@ -49,7 +46,7 @@ export class DroneService {
     }
 
     const batteryLevelDto: GetBatteryLevelDto = {
-      batteryCapacity: drone.batteryCapacity
+      batteryCapacity: drone.batteryCapacity,
     }
     await validateOutput(GetBatteryLevelDto, batteryLevelDto)
     return batteryLevelDto
@@ -60,12 +57,12 @@ export class DroneService {
     const medicament = await this.medicamentRepository.findById(medicamentId)
 
     if (!(drone && medicament)) {
-      throw new BadRequestException('Drone or Medicament weren\'t found')
+      throw new BadRequestException("Drone or Medicament weren't found")
     }
 
     if (drone.batteryCapacity < 25) {
       throw new BadRequestException(
-        'Drone can\'t be loaded when the battery is below 25%'
+        "Drone can't be loaded when the battery is below 25%"
       )
     }
 
@@ -82,7 +79,6 @@ export class DroneService {
     const loadedWeight = droneLoadedItems.reduce((previous, current) => {
       return previous + current.quantity * medicament.weight
     }, 0)
-
 
     if (loadedWeight + medicament.weight > drone.weightLimit) {
       throw new BadRequestException(
