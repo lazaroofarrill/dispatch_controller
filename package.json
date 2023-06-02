@@ -15,7 +15,8 @@
     "format": "prettier src tests -w",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
     "typeorm": "typeorm-ts-node-esm -d src/common/adapters/storage/typeorm/data-source.ts",
-    "set:env": "cp .env.example .env"
+    "set:env": "cp .env.example .env",
+    "config:hooks": "git config core.hooksPath hooks"
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
