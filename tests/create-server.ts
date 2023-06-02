@@ -8,12 +8,16 @@ import {
   S3_BUCKET_TOKEN,
 } from '../src/common/adapters/storage/minio/minio-client'
 
-const dataSource = Container.get(DataSource)
-
 export const scaffoldTests = () => {
+  const dataSource = Container.get(DataSource)
+
   afterAll(async () => {
     await cleanUpS3()
     await dataSource.destroy()
+  })
+
+  beforeEach(async () => {
+    await dataSource.synchronize(true)
   })
 
   async function cleanUpS3() {
@@ -41,6 +45,7 @@ export const scaffoldTests = () => {
 
   async function createServer() {
     await dataSource.initialize()
+
     await cleanUpS3()
 
     const app = express()

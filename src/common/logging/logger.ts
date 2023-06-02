@@ -20,13 +20,12 @@ export class Logger {
   }
 
   private timeStampMessage(message: any) {
-    const timestamp = new Date().toISOString()
     if (isObject(message)) {
-      return `\x1b[32m${timestamp}
-      _________________________________________________________
-      \x1b[0m${message}`
-    } else {
-      return `\x1b[32m${new Date().toISOString()}: \x1b[0m${message}`
+      message = JSON.stringify(message)
     }
+
+    const timestamp = new Date().toISOString()
+
+    return `${timestamp}: ${message}`
   }
 }

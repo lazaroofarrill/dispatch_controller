@@ -26,7 +26,7 @@ const envVarsToValidate: EnvVarsValidationOptions = {
   APP_DB: Joi.string().required(),
   MINIO_BUCKET: Joi.string().required(),
   MINIO_HOST: Joi.string().required(),
-  MINIO_PORT: Joi.string().required(),
+  MINIO_PORT: Joi.string().optional(),
   MINIO_ROOT_PASSWORD: Joi.string().required(),
   MINIO_ROOT_USER: Joi.string().required(),
   PORT: Joi.number().required(),

@@ -2,15 +2,15 @@
 GET {{host}}/media/presigned-url
 
 ### Get display url
-GET {{host}}/media/0fcfa097-a6cd-4c49-a4e8-92a55e035331
+GET {{host}}/media/75d386f2-cc18-46c6-a6e5-93396b3e631b
 
 >> stored_image.png
 
 ### Upload image
-PUT http://localhost:9000/dispatch-controller/1a9e1ec4-c9cd-462a-9c5d-d30f3254e6a2?
+PUT http://minio.lazaroofarrill.com:9000/dispatch-controller/75d386f2-cc18-46c6-a6e5-93396b3e631b?
     X-Amz-Algorithm=AWS4-HMAC-SHA256&
-    X-Amz-Credential=0ogbCjn2lbXLqfgh%2F20230601%2Fus-east-1%2Fs3%2Faws4_request&
-    X-Amz-Date=20230601T221936Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&
-    X-Amz-Signature=6bc217ec57819bcad72340a07f92a96ff54469c968e1cc1bd3a8f6eed8b62bd4
+    X-Amz-Credential=b8351fed4655d71a46d9fcdc4237517ed1c260ab%2F20230602%2Fus-east-1%2Fs3%2Faws4_request&
+    X-Amz-Date=20230602T091419Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&
+    X-Amz-Signature=9901c26d7e743ebda1f6f428173bbc9ed7de2f61536cbab9a7092928f8cde590
 
 < ../static/img1.png

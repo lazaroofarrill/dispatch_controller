@@ -1,7 +1,8 @@
 import { DataSource } from 'typeorm'
-import { commonDataSourceOptions } from './common-data-source.options'
 import { EnvVars } from '../../../../env-vars'
 import 'dotenv/config'
+import { entities } from './common-data-source.options'
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
 
 export const testDataSource: DataSource = new DataSource({
   host: process.env[EnvVars.TEST_POSTGRES_HOST],
@@ -10,7 +11,7 @@ export const testDataSource: DataSource = new DataSource({
   username: process.env[EnvVars.POSTGRES_USER],
   password: process.env[EnvVars.POSTGRES_PASSWORD],
   type: 'postgres',
-  ...commonDataSourceOptions,
   synchronize: true,
-  dropSchema: true,
+  entities,
+  namingStrategy: new SnakeNamingStrategy(),
 })

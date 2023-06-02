@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   api:
     depends_on:
@@ -7,9 +8,10 @@ services:
     build: .
     env_file:
       - .env
-      - .env.docker
+#      - .env.docker
     ports:
       - ${PORT}:3000
+
   db:
     image: postgres:14.1-alpine
     restart: no
@@ -20,9 +22,10 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
-      - '5432:5432'
+      - '${POSTGRES_PORT}:5432'
     volumes:
       - db_storage:/var/lib/postgresql/data
+
   db-test:
     image: postgres:14.1-alpine
     restart: always
@@ -35,6 +38,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - '${TEST_POSTGRES_PORT}:5432'
+
   minio:
     image: minio/minio
     ports:
@@ -46,9 +50,14 @@ services:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     command: server --console-address ":9001" /data
+#    networks:
+#      default:
+#        aliases:
+#          - ${MINIO_HOST}
 
 volumes:
   db_storage:
     driver: local
   minio_storage:
     driver: local
+

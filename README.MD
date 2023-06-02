@@ -7,6 +7,10 @@ The fastest way of setting them up is creating a file `.env`
 in the root of the project and copying the contents of the file
 `.env.example` in it.
 
+The variable MINIO_HOST must resolve to a public url.
+For testing locally use an alias and add this alias
+the list of hosts in the system.
+
 ## Running directly from the container
 
 To start the project right away run the following command in the terminal.
