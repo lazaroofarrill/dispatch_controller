@@ -1,7 +1,7 @@
 import { Container, Service } from 'typedi'
 import {
   minioClient,
-  S3_BUCKET_TOKEN
+  S3_BUCKET_TOKEN,
 } from '../../common/adapters/storage/minio/minio-client'
 import { randomUUID } from 'crypto'
 import { isUUID } from 'class-validator'

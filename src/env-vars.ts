@@ -13,5 +13,5 @@ export enum EnvVars {
   POSTGRES_PASSWORD = 'POSTGRES_PASSWORD',
   APP_DB = 'APP_DB',
   TEST_DB = 'TEST_DB',
-  PORT = 'PORT'
+  PORT = 'PORT',
 }

@@ -9,8 +9,7 @@ const droneRouter = express.Router()
 
 @Service()
 export class DroneController {
-  constructor(private readonly droneService: DroneService) {
-  }
+  constructor(private readonly droneService: DroneService) {}
 
   registerDrone(createDroneDto: CreateDroneDto) {
     return this.droneService

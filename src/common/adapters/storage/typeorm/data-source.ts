@@ -20,6 +20,5 @@ export const dataSource: DataSource = new DataSource({
   entities,
   synchronize: false,
   namingStrategy: new SnakeNamingStrategy(),
-  migrations: [`${path.resolve(__dirname, './migrations')}/*.ts`]
+  migrations: [`${path.resolve(__dirname, './migrations')}/*.ts`],
 })
-

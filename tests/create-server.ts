@@ -1,13 +1,11 @@
 import express from 'express'
 import { appRouter } from '../src/modules/router'
-import {
-  typeormTransactionMiddleware
-} from '../src/common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
+import { typeormTransactionMiddleware } from '../src/common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
 import { Container } from 'typedi'
 import { DataSource } from 'typeorm'
 import {
   minioClient,
-  S3_BUCKET_TOKEN
+  S3_BUCKET_TOKEN,
 } from '../src/common/adapters/storage/minio/minio-client'
 
 const dataSource = Container.get(DataSource)

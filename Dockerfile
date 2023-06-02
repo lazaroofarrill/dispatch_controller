@@ -13,5 +13,3 @@ RUN yarn build
 RUN chmod +x /opt/app/startup.sh
 
 ENTRYPOINT ["/opt/app/startup.sh"]
-
-CMD yarn start

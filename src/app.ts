@@ -8,7 +8,7 @@ import { DataSource } from 'typeorm'
 import { Logger } from './common/logging/logger'
 import {
   minioClient,
-  S3_BUCKET_TOKEN
+  S3_BUCKET_TOKEN,
 } from './common/adapters/storage/minio/minio-client'
 
 const app = express()

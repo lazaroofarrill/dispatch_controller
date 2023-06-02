@@ -1,16 +1,8 @@
 import { Container } from 'typedi'
-import {
-  DroneRepository
-} from '../modules/drones/repositories/drone-repository'
-import {
-  MedicamentRepository
-} from '../modules/medicaments/repositories/medicament.repository'
-import {
-  TypeormDroneRepository
-} from '../modules/drones/repositories/typeorm-drone.repository'
-import {
-  TypeormMedicamentRepository
-} from '../modules/medicaments/repositories/typeorm-medicament.repository'
+import { DroneRepository } from '../modules/drones/repositories/drone-repository'
+import { MedicamentRepository } from '../modules/medicaments/repositories/medicament.repository'
+import { TypeormDroneRepository } from '../modules/drones/repositories/typeorm-drone.repository'
+import { TypeormMedicamentRepository } from '../modules/medicaments/repositories/typeorm-medicament.repository'
 import { DataSource } from 'typeorm'
 import { dataSource } from './adapters/storage/typeorm/data-source'
 import { Logger } from './logging/logger'
@@ -45,13 +37,10 @@ const envVarsToValidate: EnvVarsValidationOptions = {
   TEST_DB: Joi.string().required(),
   TEST_POSTGRES_HOST: Joi.string().required(),
   TEST_POSTGRES_PORT: Joi.number().required(),
-  TEST_S3_BUCKET: Joi.string().required()
+  TEST_S3_BUCKET: Joi.string().required(),
 }
 
-export const validationSchema = Joi
-  .object()
-  .keys(envVarsToValidate)
-  .unknown()
+export const validationSchema = Joi.object().keys(envVarsToValidate).unknown()
 
 const { error } = validationSchema.validate(process.env)
 if (error) {

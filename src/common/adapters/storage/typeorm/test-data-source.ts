@@ -13,5 +13,5 @@ export const testDataSource: DataSource = new DataSource({
   entities,
   synchronize: true,
   dropSchema: true,
-  namingStrategy: new SnakeNamingStrategy()
+  namingStrategy: new SnakeNamingStrategy(),
 })
