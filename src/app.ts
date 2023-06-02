@@ -12,14 +12,11 @@ import {
   minioClient,
   S3_BUCKET_TOKEN
 } from './common/adapters/storage/minio/minio-client'
-import { setupSwagger } from './common/swagger/setup-swagger'
 
 const app = express()
 
 app.use(typeormTransactionMiddleware)
 app.use(appRouter)
-
-setupSwagger(app)
 
 const dataSource = Container.get(DataSource)
 const consoleLogger = new Logger()
