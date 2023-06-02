@@ -4,6 +4,7 @@ import { EnvVars } from '../../../../env-vars'
 import path from 'path'
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
 import { fileURLToPath } from 'url'
+import { entities } from './common-data-source.options'
 
 const __filename = fileURLToPath(import.meta.url)
 
@@ -19,4 +20,5 @@ export const dataSource: DataSource = new DataSource({
   synchronize: false,
   migrations: [`${path.resolve(__dirname, './migrations')}/*.ts`],
   namingStrategy: new SnakeNamingStrategy(),
+  entities,
 })

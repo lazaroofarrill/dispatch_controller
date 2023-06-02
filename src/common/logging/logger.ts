@@ -1,5 +1,4 @@
 import { Service } from 'typedi'
-import { isObject } from 'class-validator'
 
 @Service()
 export class Logger {
@@ -20,12 +19,8 @@ export class Logger {
   }
 
   private timeStampMessage(message: any) {
-    if (isObject(message)) {
-      message = JSON.stringify(message)
-    }
-
     const timestamp = new Date().toISOString()
 
-    return `${timestamp}: ${message}`
+    return `\x1b[32m${timestamp} | \x1b[0m${JSON.stringify(message)}`
   }
 }

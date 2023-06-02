@@ -7,10 +7,10 @@ GET {{host}}/media/75d386f2-cc18-46c6-a6e5-93396b3e631b
 >> stored_image.png
 
 ### Upload image
-PUT http://minio.lazaroofarrill.com:9000/dispatch-controller/75d386f2-cc18-46c6-a6e5-93396b3e631b?
+PUT http://minio.lazaroofarrill.com:9000/dispatch-controller/301f2865-5349-44b6-a2d3-5f0a2e221887?
     X-Amz-Algorithm=AWS4-HMAC-SHA256&
     X-Amz-Credential=b8351fed4655d71a46d9fcdc4237517ed1c260ab%2F20230602%2Fus-east-1%2Fs3%2Faws4_request&
-    X-Amz-Date=20230602T091419Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&
-    X-Amz-Signature=9901c26d7e743ebda1f6f428173bbc9ed7de2f61536cbab9a7092928f8cde590
+    X-Amz-Date=20230602T103647Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&
+    X-Amz-Signature=5e1900a6514cd659711a1fe57c0e7ceee9fc1a0a39d82bb516f9b80bd55be2c8
 
 < ../static/img1.png

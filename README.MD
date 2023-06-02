@@ -11,11 +11,16 @@ The variable MINIO_HOST must resolve to a public url.
 For testing locally use an alias and add this alias
 the list of hosts in the system.
 
+
 ## Running directly from the container
 
 To start the project right away run the following command in the terminal.
 
 `docker compose up api`
+
+To start battery level job run the following command.
+
+`docker compose up job_battery_check`
 
 ## Local development
 

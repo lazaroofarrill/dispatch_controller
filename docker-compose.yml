@@ -1,16 +1,46 @@
 version: '3.8'
 
 services:
-  api:
+  master:
+    build: .
+    image: com.github.lazaroofarrill/dispatch_controller
+
+  cmd_migrations:
+    image: com.github.lazaroofarrill/dispatch_controller
     depends_on:
+      - master
+    command:
+      - "yarn typeorm migration:run"
+
+  api:
+    image: com.github.lazaroofarrill/dispatch_controller
+    depends_on:
+      - cmd_migrations
+      - master
       - db
       - minio
-    build: .
     env_file:
       - .env
-#      - .env.docker
+      - .env.docker
     ports:
       - ${PORT}:3000
+    command: "yarn start"
+    profiles:
+      - prod
+
+  job_battery_check:
+    image: com.github.lazaroofarrill/dispatch_controller
+    depends_on:
+      - cmd_migrations
+      - db
+      - master
+    restart: always
+    command: "yarn job:drone-battery-check"
+    env_file:
+      - .env
+      - .env.docker
+    profiles:
+      - prod
 
   db:
     image: postgres:14.1-alpine
@@ -31,7 +61,6 @@ services:
     restart: always
     env_file:
       - .env
-      - .env.example
     environment:
       - POSTGRES_DB=${TEST_DB}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -50,10 +79,12 @@ services:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     command: server --console-address ":9001" /data
-#    networks:
-#      default:
-#        aliases:
-#          - ${MINIO_HOST}
+    env_file:
+      - .env
+    networks:
+      default:
+        aliases:
+          - ${MINIO_HOST}
 
 volumes:
   db_storage:
