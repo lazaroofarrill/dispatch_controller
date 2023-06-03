@@ -71,3 +71,4 @@ build
 /coverage
 /logs/*
 !/logs/dummy.txt
+public/swagger.json
