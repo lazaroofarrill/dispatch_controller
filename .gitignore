@@ -69,3 +69,5 @@ build
 /http-request/*.png
 /http-request/*.jpg
 /coverage
+/logs/*
+!/logs/dummy.txt

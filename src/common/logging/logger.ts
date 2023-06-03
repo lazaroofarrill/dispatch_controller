@@ -2,6 +2,12 @@ import { Service } from 'typedi'
 
 @Service()
 export class Logger {
+  serviceName: string
+
+  constructor(serviceName?: string) {
+    this.serviceName = serviceName || Logger.name
+  }
+
   log(message: any) {
     console.log(this.timeStampMessage(message))
   }
@@ -19,8 +25,16 @@ export class Logger {
   }
 
   private timeStampMessage(message: any) {
+    if (typeof message === 'string') {
+      message = {
+        message,
+      }
+    }
+
     const timestamp = new Date().toISOString()
 
-    return `\x1b[32m${timestamp} | \x1b[0m${JSON.stringify(message)}`
+    return `\x1b[32m${timestamp} | \x1b[34m${
+      this.serviceName
+    } | \x1b[0m${JSON.stringify(message)}`
   }
 }

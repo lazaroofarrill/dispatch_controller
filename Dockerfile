@@ -8,7 +8,3 @@ COPY yarn.lock .
 RUN yarn install -D
 COPY . .
 RUN yarn build
-
-
-RUN chmod +x /opt/app/startup.sh
-
