@@ -127,5 +127,5 @@ for (const { label, dto, message } of invalidDtos) {
   it(`${label}`, () =>
     expect(
       validateInput(CreateDroneDto, { ...createDroneDto, ...dto })
-    ).rejects.toEqual(message))
+    ).rejects.toThrow(new Error(JSON.stringify(message.message))))
 }

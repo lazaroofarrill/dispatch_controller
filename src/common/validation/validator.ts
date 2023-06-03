@@ -5,7 +5,10 @@ import {
 } from '../exceptions/HttpExceptions'
 import { plainToInstance } from 'class-transformer'
 
-const validateObject = <T extends object>(ctr: new () => T, dto: object) => {
+const validateObject = async <T extends object>(
+  ctr: new () => T,
+  dto: object
+) => {
   if (!dto) {
     throw Error('Object for validation cannot be undefined')
   }
@@ -18,7 +21,9 @@ const validateObject = <T extends object>(ctr: new () => T, dto: object) => {
   })
     .then(() => instance)
     .catch((errors: ValidationError[]) => {
-      throw errors.map((validationError) => validationError.constraints).flat()
+      throw JSON.stringify(
+        errors.map((validationError) => validationError.constraints).flat()
+      )
     })
 }
 
@@ -27,7 +32,8 @@ export const validateInput = <T extends object>(
   dto: object
 ) => {
   return validateObject(ctr, dto).catch((err) => {
-    throw new BadRequestException(err)
+    const message = err instanceof Error ? err.message : err
+    throw new BadRequestException(message)
   })
 }
 

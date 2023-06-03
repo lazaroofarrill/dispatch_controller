@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "serialNumber": "1234 lol",
-  "weightLimit": 500,
+  "weightLimit": 600,
   "state": "IDLE",
   "model": "Lightweight",
   "batteryCapacity": 90

@@ -1,9 +1,10 @@
-export class HttpException {
+export class HttpException extends Error {
   status: number
 
-  message: string | object
+  message: string
 
-  constructor(message?: string | object) {
+  constructor(message?: string) {
+    super()
     this.status = 500
     this.message = message || 'Internal Server Error'
   }
@@ -12,7 +13,7 @@ export class HttpException {
 export class BadRequestException extends HttpException {
   status = 400
 
-  constructor(message?: string | object) {
+  constructor(message?: string) {
     super(message || 'Bad Request Exception')
   }
 }
