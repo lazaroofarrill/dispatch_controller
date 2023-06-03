@@ -7,10 +7,13 @@ services:
 
   cmd_migrations:
     image: com.github.lazaroofarrill/dispatch_controller
+    env_file:
+      - .env
+      - .env.docker
     depends_on:
       - master
-    command:
-      - "yarn typeorm migration:run"
+      - db
+    command: [ 'yarn', 'typeorm', 'migration:run' ]
 
   api:
     image: com.github.lazaroofarrill/dispatch_controller
@@ -25,8 +28,6 @@ services:
     ports:
       - ${PORT}:3000
     command: "yarn start"
-    profiles:
-      - prod
 
   job_battery_check:
     image: com.github.lazaroofarrill/dispatch_controller
@@ -40,8 +41,6 @@ services:
     env_file:
       - .env
       - .env.docker
-    profiles:
-      - prod
     links:
       - fluentd
     logging:

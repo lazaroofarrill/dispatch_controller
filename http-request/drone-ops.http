@@ -15,7 +15,7 @@ Content-Type: application/json
 GET {{host}}/drones
 
 ### Get battery level of a single drone
-GET {{host}}/drones/2e6bf707-6ff3-4e44-84e5-3aba43cbab98/battery
+GET {{host}}/drones/d007a1a6-d685-4837-8704-4750e3f80c27/battery
 
 ### Load item
 PATCH {{host}}/drones/81c0fbdd-c7c6-42d4-b5a6-ea8ffa647e00/items/load/b7ad918d-edae-4b3d-97e3-ceb669a73b71
