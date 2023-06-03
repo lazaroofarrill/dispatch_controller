@@ -4,6 +4,9 @@ services:
   master:
     build: .
     image: com.github.lazaroofarrill/dispatch_controller
+    volumes:
+      - app_node_modules:/opt/app/node_modules
+      - yarn_cache:/yarn
 
   cmd_migrations:
     image: com.github.lazaroofarrill/dispatch_controller
@@ -18,10 +21,14 @@ services:
   api:
     image: com.github.lazaroofarrill/dispatch_controller
     depends_on:
-      - cmd_migrations
-      - master
-      - db
-      - minio
+      cmd_migrations:
+        condition: service_completed_successfully
+      master:
+        condition: service_started
+      db:
+        condition: service_started
+      minio:
+        condition: service_started
     env_file:
       - .env
       - .env.docker
@@ -32,10 +39,14 @@ services:
   job_battery_check:
     image: com.github.lazaroofarrill/dispatch_controller
     depends_on:
-      - cmd_migrations
-      - db
-      - master
-      - fluentd
+      cmd_migrations:
+        condition: service_completed_successfully
+      master:
+        condition: service_started
+      db:
+        condition: service_started
+      minio:
+        condition: service_started
     restart: always
     command: "yarn job:drone-battery-check"
     env_file:
@@ -94,9 +105,9 @@ services:
           - ${MINIO_HOST}
 
   fluentd:
-    build: ./fluentd
+    build: docker/fluentd
     volumes:
-      - ./fluentd/conf:/fluentd/etc
+      - ./docker/fluentd/conf:/fluentd/etc
       - ./logs:/tmp/log/fluent
     ports:
       - "24224:24224"
@@ -108,4 +119,6 @@ volumes:
   minio_storage:
     driver: local
   mongo_logs:
+  app_node_modules:
+  yarn_cache:
 
