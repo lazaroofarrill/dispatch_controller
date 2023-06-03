@@ -25,7 +25,7 @@ export class DroneService {
   async registerDrone(createDroneDto: CreateDroneDto) {
     await validateInput(CreateDroneDto, createDroneDto)
 
-    const newDrone = Object.assign(new Drone(), createDroneDto)
+    const newDrone: Drone = Object.assign(new Drone(), createDroneDto)
 
     return this.droneRepository.save(newDrone)
   }

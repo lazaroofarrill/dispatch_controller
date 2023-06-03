@@ -10,10 +10,24 @@ import {
   minioClient,
   S3_BUCKET_TOKEN,
 } from './common/adapters/storage/minio/minio-client'
+import morgan from 'morgan'
+import swaggerUi from 'swagger-ui-express'
 
 const app = express()
 
 app.use(typeormTransactionMiddleware)
+app.use(morgan('tiny'))
+app.use(express.static('public'))
+app.use(
+  '/docs',
+  swaggerUi.serve,
+  swaggerUi.setup(undefined, {
+    swaggerOptions: {
+      url: '/swagger.json',
+    },
+  })
+)
+
 app.use(appRouter)
 
 const dataSource = Container.get(DataSource)

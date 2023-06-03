@@ -30,7 +30,7 @@ it('should fail when sending non existent drone id to load item', async () => {
   const randomId = randomUUID()
 
   await request(app)
-    .patch(`/drones/${randomId}/items/load/${randomId}`)
+    .post(`/drones/${randomId}/items/${randomId}`)
     .expect(400)
     .expect({ status: 400, message: "Drone or Medicament weren't found" })
 })
@@ -63,7 +63,7 @@ it('item load failures', async () => {
 
   // Fail to load when battery below 25
   await request(app)
-    .patch(`/drones/${createdDrone.id}/items/load/${createdMedicament.id}`)
+    .post(`/drones/${createdDrone.id}/items/${createdMedicament.id}`)
     .expect(400)
     .expect({
       status: 400,
@@ -83,7 +83,7 @@ it('item load failures', async () => {
 
   // Fail to load when drone state is not idle
   await request(app)
-    .patch(`/drones/${createdDrone2.id}/items/load/${createdMedicament.id}`)
+    .post(`/drones/${createdDrone2.id}/items/${createdMedicament.id}`)
     .expect(400)
     .expect({ status: 400, message: 'Drone is busy' })
 })

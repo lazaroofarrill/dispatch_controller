@@ -3,8 +3,9 @@ import {
   BadRequestException,
   HttpException,
 } from '../exceptions/HttpExceptions'
+import { plainToInstance } from 'class-transformer'
 
-const validateObject = (ctr: new () => object, dto: object) => {
+const validateObject = <T extends object>(ctr: new () => T, dto: object) => {
   if (!dto) {
     throw Error('Object for validation cannot be undefined')
   }
@@ -17,14 +18,24 @@ const validateObject = (ctr: new () => object, dto: object) => {
   })
 }
 
-export const validateInput = (ctr: new () => object, dto: object) => {
+export const validateInput = <T extends object>(
+  ctr: new () => T,
+  dto: object
+) => {
   return validateObject(ctr, dto).catch((err) => {
     throw new BadRequestException(err)
   })
 }
 
-export const validateOutput = (ctr: new () => object, dto: object) => {
-  return validateObject(ctr, dto).catch(() => {
-    throw new HttpException('Output Encoding Error')
-  })
+export const validateOutput = <T extends object>(
+  ctr: new () => T,
+  dto: object
+) => {
+  const object = plainToInstance(ctr, dto)
+  return validateObject(ctr, dto)
+    .then(() => object)
+    .catch((err) => {
+      console.log(err)
+      throw new HttpException('Output Encoding Error')
+    })
 }

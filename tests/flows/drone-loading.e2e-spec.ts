@@ -138,7 +138,7 @@ describe('Load Drone', () => {
 
     // Load drone 1
     await request(app)
-      .patch(`/drones/${drone1.id}/items/load/${createdMedicaments[0].id}`)
+      .post(`/drones/${drone1.id}/items/${createdMedicaments[0].id}`)
       .expect(200)
       .expect('true')
 
@@ -149,12 +149,12 @@ describe('Load Drone', () => {
 
     //Exceed drone 1 capacity
     await request(app)
-      .patch(`/drones/${drone1.id}/items/load/${createdMedicaments[0].id}`)
+      .post(`/drones/${drone1.id}/items/${createdMedicaments[0].id}`)
       .expect(200)
       .expect('true')
 
     await request(app)
-      .patch(`/drones/${drone1.id}/items/load/${createdMedicaments[0].id}`)
+      .post(`/drones/${drone1.id}/items/${createdMedicaments[0].id}`)
       .expect(400)
       .expect({
         status: 400,
