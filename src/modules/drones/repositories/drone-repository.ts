@@ -16,4 +16,6 @@ export abstract class DroneRepository {
       quantity: number
     }[]
   >
+
+  abstract unloadItem(droneId: string, medicamentId: string): Promise<boolean>
 }

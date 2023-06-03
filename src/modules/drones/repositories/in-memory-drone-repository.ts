@@ -91,4 +91,8 @@ export class InMemoryDroneRepository extends DroneRepository {
       })
     )
   }
+
+  unloadItem(droneId: string, medicamentId: string): Promise<boolean> {
+    throw new HttpException('Method not implemented') //TODO
+  }
 }

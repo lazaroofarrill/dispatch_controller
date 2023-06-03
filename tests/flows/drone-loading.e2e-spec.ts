@@ -161,6 +161,21 @@ describe('Load Drone', () => {
         message: 'Weight limit of the drone has been reached',
       })
 
+    // Unload drone
+    await request(app)
+      .delete(`/drones/${drone1.id}/items/${createdMedicaments[0].id}`)
+      .expect(200)
+
+    await request(app)
+      .delete(`/drones/${drone1.id}/items/${createdMedicaments[0].id}`)
+      .expect(200)
+
+    //Fail when trying to unload below 0
+    await request(app)
+      .delete(`/drones/${drone1.id}/items/${createdMedicaments[0].id}`)
+      .expect(400)
+      .expect({ status: 400, message: 'This item is not loaded in the drone' })
+
     //Check battery level for drone 2
     await request(app).get(`/drones/${drone2.id}/battery`).expect(200).expect({
       batteryCapacity: drone2.batteryCapacity,
@@ -184,7 +199,7 @@ describe('Load Drone', () => {
 
     // List available drones
     await request(app)
-      .get('/drones/')
+      .get('/drones/available')
       .expect(200)
       .then(({ body }) => {
         expect(body.map((b: any) => b.id).sort()).toEqual(

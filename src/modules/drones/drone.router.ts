@@ -30,9 +30,16 @@ droneRouter.get(DroneRoutes.GET_BATTERY, (req, res, next) =>
     .catch((err) => next(err))
 )
 
-droneRouter.post(DroneRoutes.POST_LOAD_ITEM, (req, res, next) =>
+droneRouter.post(DroneRoutes.POST_ADD_ITEM, (req, res, next) =>
   droneController
     .loadItem(req.params.droneId, req.params.medicamentId)
+    .then((result) => res.send(result))
+    .catch((err) => next(err))
+)
+
+droneRouter.delete(DroneRoutes.DELETE_UNLOAD_ITEM, (req, res, next) =>
+  droneController
+    .unloadItem(req.params.droneId, req.params.medicamentId)
     .then((result) => res.send(result))
     .catch((err) => next(err))
 )

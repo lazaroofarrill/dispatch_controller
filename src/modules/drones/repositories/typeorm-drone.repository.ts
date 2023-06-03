@@ -6,7 +6,10 @@ import { DroneEntity } from '../../../common/adapters/storage/typeorm/entities/d
 import { Service } from 'typedi'
 import { DroneStateEnum } from '../enums/drone-state.enum'
 import { DroneMedicamentJoinEntity } from '../../../common/adapters/storage/typeorm/entities/drone-medicament-join.entity'
-import { InternalServerError } from '../../../common/exceptions/HttpExceptions'
+import {
+  BadRequestException,
+  InternalServerError,
+} from '../../../common/exceptions/HttpExceptions'
 import { getAsyncRepo } from '../../../common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
 
 @Service()
@@ -84,6 +87,33 @@ export class TypeormDroneRepository extends DroneRepository {
         }
         return drone.toDrone()
       })
+  }
+
+  async unloadItem(droneId: string, medicamentId: string) {
+    let droneMedicamentJoin = await this.droneMedicamentJoinRepository.findOne({
+      where: {
+        droneId,
+        medicamentId,
+      },
+    })
+
+    if (!droneMedicamentJoin) {
+      throw new BadRequestException('This item is not loaded in the drone')
+    }
+
+    if (droneMedicamentJoin.quantity > 0) {
+      droneMedicamentJoin.quantity--
+    } else {
+      throw new BadRequestException('Quantity cannot be lower than 0')
+    }
+
+    if (droneMedicamentJoin.quantity === 0) {
+      await this.droneMedicamentJoinRepository.remove(droneMedicamentJoin)
+    } else {
+      await this.droneMedicamentJoinRepository.save(droneMedicamentJoin)
+    }
+
+    return true
   }
 
   private get droneRepository(): Repository<DroneEntity> {

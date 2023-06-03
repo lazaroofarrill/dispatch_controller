@@ -12,10 +12,16 @@ Content-Type: application/json
 
 
 ### List available drones
-GET {{host}}/drones
+GET {{host}}/drones/available
 
 ### Get battery level of a single drone
 GET {{host}}/drones/d007a1a6-d685-4837-8704-4750e3f80c27/battery
 
+### Check drone items
+GET {{host}}/drones/e96c868f-5b62-4ae4-949f-91c7920c7907/items
+
 ### Load item
-PATCH {{host}}/drones/81c0fbdd-c7c6-42d4-b5a6-ea8ffa647e00/items/b7ad918d-edae-4b3d-97e3-ceb669a73b71
+POST {{host}}/drones/e96c868f-5b62-4ae4-949f-91c7920c7907/items/9653af3b-5e10-41d4-a448-bd14f280a2a1
+
+### Unload item
+DELETE {{host}}/drones/e96c868f-5b62-4ae4-949f-91c7920c7907/items/9653af3b-5e10-41d4-a448-bd14f280a2a1

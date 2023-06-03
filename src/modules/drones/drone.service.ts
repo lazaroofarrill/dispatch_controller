@@ -104,4 +104,25 @@ export class DroneService {
   async checkLoadedItems(droneId: string) {
     return this.droneRepository.getLoadedItems(droneId)
   }
+
+  async unloadItem(droneId: string, medicamentId: string) {
+    if (!(isUUID(droneId) && isUUID(medicamentId))) {
+      throw new BadRequestException(
+        'droneId or medicamentId are not valid uuids'
+      )
+    }
+
+    const existingDrone = await this.droneRepository.findById(droneId)
+    const existingMedicament = await this.medicamentRepository.findById(
+      medicamentId
+    )
+
+    if (!(existingDrone && existingMedicament)) {
+      throw new BadRequestException(
+        'Either the drone or the medicament do not exist'
+      )
+    }
+
+    return this.droneRepository.unloadItem(droneId, medicamentId)
+  }
 }

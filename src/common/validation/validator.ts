@@ -1,7 +1,7 @@
-import { validateOrReject, ValidationError } from 'class-validator'
+import { isArray, validateOrReject, ValidationError } from 'class-validator'
 import {
   BadRequestException,
-  HttpException,
+  InternalServerError,
 } from '../exceptions/HttpExceptions'
 import { plainToInstance } from 'class-transformer'
 
@@ -10,12 +10,16 @@ const validateObject = <T extends object>(ctr: new () => T, dto: object) => {
     throw Error('Object for validation cannot be undefined')
   }
 
-  return validateOrReject(Object.assign(new ctr(), dto), {
+  const instance = plainToInstance(ctr, dto)
+
+  return validateOrReject(instance, {
     forbidUnknownValues: true,
     forbidNonWhitelisted: true,
-  }).catch((errors: ValidationError[]) => {
-    throw errors.map((validationError) => validationError.constraints).flat()
   })
+    .then(() => instance)
+    .catch((errors: ValidationError[]) => {
+      throw errors.map((validationError) => validationError.constraints).flat()
+    })
 }
 
 export const validateInput = <T extends object>(
@@ -27,15 +31,22 @@ export const validateInput = <T extends object>(
   })
 }
 
-export const validateOutput = <T extends object>(
-  ctr: new () => T,
+export const validateOutput: <T extends object>(
+  ctr: {
+    new (): T
+  },
   dto: object
-) => {
-  const object = plainToInstance(ctr, dto)
-  return validateObject(ctr, dto)
-    .then(() => object)
-    .catch((err) => {
+) => Promise<T | T[]> = <T extends object>(ctr: new () => T, dto: object) => {
+  const error = new InternalServerError('Output Encoding Error')
+  if (isArray(dto)) {
+    return Promise.all(dto.map((d) => validateObject(ctr, d))).catch((err) => {
       console.log(err)
-      throw new HttpException('Output Encoding Error')
+      throw error
     })
+  } else {
+    return validateObject(ctr, dto).catch((err) => {
+      console.error(err)
+      throw error
+    })
+  }
 }

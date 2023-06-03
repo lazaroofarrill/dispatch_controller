@@ -57,3 +57,8 @@ Run the following command.
 `docker compose up db-test minio`
 
 `yarn test`
+
+### Api docs
+
+You can access the swagger description in the
+endpoint `/docs`.

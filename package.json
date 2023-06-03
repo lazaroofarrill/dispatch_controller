@@ -7,14 +7,14 @@
   "license": "MIT",
   "scripts": {
     "start": "node --es-module-specifier-resolution=node build/src/app.js",
-    "start:dev": "concurrently \"nodemon src/app.ts\" \"nodemon --ignore ./public -x tsoa spec\"",
+    "start:dev": "yarn nodemon",
     "predev": "yarn swagger",
     "prebuild": "yarn swagger",
     "job:drone-battery-check": "node --es-module-specifier-resolution=node build/src/jobs/battery-level-check/start.js",
     "job:drone-battery-check:dev": "nodemon src/jobs/battery-level-check/start.ts",
     "build": "tsc",
     "lint": "eslint src --fix",
-    "clean": "rimraf build",
+    "clean": "rimraf build public/swagger.json",
     "format": "prettier src tests -w",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest) --runInBand",
     "test:cov": "yarn test --coverage --collectCoverageFrom=src/**",
@@ -22,7 +22,7 @@
     "typeorm:test": "typeorm-ts-node-esm -d src/common/adapters/storage/typeorm/test-data-source.ts",
     "set:env": "cp .env.example .env",
     "config:hooks": "git config core.hooksPath hooks",
-    "nodemon": "nodemon --ignore ./public",
+    "nodemon": "nodemon --exec \"yarn swagger && ts-node src/app.ts\"",
     "swagger": "tsoa spec"
   },
   "dependencies": {

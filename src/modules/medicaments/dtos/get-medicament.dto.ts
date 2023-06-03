@@ -1,6 +1,9 @@
-import { IsNumber, IsString, Matches, Max, Min } from 'class-validator'
+import { IsNumber, IsString, IsUUID, Matches, Max, Min } from 'class-validator'
 
-export class CreateMedicamentDto {
+export class GetMedicamentDto {
+  @IsUUID()
+  id: string
+
   @Matches(/^[A-Z_0-9]{1,255}$/gm)
   code: string
 
