@@ -8,7 +8,7 @@ export class CreateMedicamentDto implements Partial<Medicament> {
   @IsString()
   image: string
 
-  @Matches(/^[a-zA-Z\-_]{1,255}$/gm) // allowed only letters, numbers, ‘-‘, ‘_’
+  @Matches(/^[a-zA-Z\-_0-9]{1,255}$/gm) // allowed only letters, numbers, ‘-‘, ‘_’
   name: string
 
   @IsNumber()
