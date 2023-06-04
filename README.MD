@@ -22,6 +22,9 @@ To start battery level job run the following command.
 
 `docker compose up job_battery_check`
 
+**Notice:** The folder `./logs` needs to be writable 
+by docker in order to mount the output for the logs
+
 ## Local development
 
 ### Installing dependencies

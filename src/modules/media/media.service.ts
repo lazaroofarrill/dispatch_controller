@@ -22,8 +22,6 @@ export class MediaService {
     const url = await minioClient
       .presignedUrl('PUT', this.bucket, key)
       .catch((err) => {
-        console.log('the key was', key)
-        console.log(err)
         throw err
       })
     return {

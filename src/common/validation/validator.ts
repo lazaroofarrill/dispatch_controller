@@ -46,7 +46,7 @@ export const validateOutput: <T extends object>(
   const error = new InternalServerError('Output Encoding Error')
   if (isArray(dto)) {
     return Promise.all(dto.map((d) => validateObject(ctr, d))).catch((err) => {
-      console.log(err)
+      console.error(err)
       throw error
     })
   } else {

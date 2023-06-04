@@ -27,12 +27,9 @@ export class InMemoryDroneRepository extends DroneRepository {
   }
 
   async getAvailableDrones(): Promise<Drone[]> {
-    console.log(droneStorage)
-    const drones = Object.keys(droneStorage)
+    return Object.keys(droneStorage)
       .map((k) => droneStorage[k])
       .filter((drone) => drone.state === DroneStateEnum.IDLE)
-    console.log(drones)
-    return drones
   }
 
   async findById(droneId: string): Promise<Drone | null> {
