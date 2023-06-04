@@ -12,10 +12,9 @@ import {
 } from './common/adapters/storage/minio/minio-client'
 import morgan from 'morgan'
 import swaggerUi from 'swagger-ui-express'
+import { createAppServer } from './common/create-app-server'
 
-const app = express()
-
-app.use(typeormTransactionMiddleware)
+const app = createAppServer()
 app.use(morgan('tiny'))
 app.use(express.static('public'))
 app.use(

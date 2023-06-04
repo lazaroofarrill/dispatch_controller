@@ -18,6 +18,20 @@ services:
       - db
     command: [ 'yarn', 'typeorm', 'migration:run' ]
 
+  cmd_seed:
+    image: com.github.lazaroofarrill/dispatch_controller
+    env_file:
+      - .env
+      - .env.docker
+    depends_on:
+      cmd_migrations:
+        condition: service_completed_successfully
+      master:
+        condition: service_started
+      db:
+        condition: service_started
+    command: [ 'yarn', 'database:seed' ]
+
   api:
     image: com.github.lazaroofarrill/dispatch_controller
     depends_on:

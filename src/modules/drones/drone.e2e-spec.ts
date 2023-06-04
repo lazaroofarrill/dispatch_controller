@@ -1,4 +1,4 @@
-import { scaffoldTests } from '../../../tests/create-server'
+import { scaffoldTests } from '../../../tests/scaffold-tests'
 import express from 'express'
 import request from 'supertest'
 import { randomUUID } from 'crypto'

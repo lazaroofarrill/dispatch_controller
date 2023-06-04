@@ -11,7 +11,6 @@ The variable MINIO_HOST must resolve to a public url.
 For testing locally use an alias and add this alias
 the list of hosts in the system.
 
-
 ## Running directly from the container
 
 To start the project right away run the following command in the terminal.
@@ -22,7 +21,7 @@ To start battery level job run the following command.
 
 `docker compose up job_battery_check`
 
-**Notice:** The folder `./logs` needs to be writable 
+**Notice:** The folder `./logs` needs to be writable
 by docker in order to mount the output for the logs
 
 ## Local development
@@ -60,6 +59,13 @@ Run the following command.
 `docker compose up db-test minio`
 
 `yarn test`
+
+## Dummy Data
+
+In order to seed the database with some basic dummy data
+run the following command.
+
+`docker compose up cmd_seed`
 
 ## Api docs
 

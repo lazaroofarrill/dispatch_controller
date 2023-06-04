@@ -10,6 +10,8 @@ Content-Type: application/json
   "batteryCapacity": 90
 }
 
+### List drones
+GET {{host}}/drones/
 
 ### List available drones
 GET {{host}}/drones/available
@@ -18,7 +20,7 @@ GET {{host}}/drones/available
 GET {{host}}/drones/d007a1a6-d685-4837-8704-4750e3f80c27/battery
 
 ### Check drone items
-GET {{host}}/drones/e96c868f-5b62-4ae4-949f-91c7920c7907/items
+GET {{host}}/drones/59df7215-223e-446a-9e60-e0dd997628bc/items
 
 ### Load item
 POST {{host}}/drones/e96c868f-5b62-4ae4-949f-91c7920c7907/items/9653af3b-5e10-41d4-a448-bd14f280a2a1

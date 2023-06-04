@@ -12,7 +12,7 @@ import * as path from 'path'
 import axios from 'axios'
 import * as fs from 'fs'
 import FormData from 'form-data'
-import { scaffoldTests } from '../create-server'
+import { scaffoldTests } from '../scaffold-tests'
 
 const { createServer } = scaffoldTests()
 let app: Express

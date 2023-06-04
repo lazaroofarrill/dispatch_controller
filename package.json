@@ -23,7 +23,8 @@
     "set:env": "cp .env.example .env",
     "config:hooks": "git config core.hooksPath hooks",
     "nodemon": "nodemon --exec \"yarn swagger && ts-node src/app.ts\"",
-    "swagger": "tsoa spec"
+    "swagger": "tsoa spec",
+    "database:seed": "node --es-module-specifier-resolution=node build/src/seeders/app.seeder.js"
   },
   "dependencies": {
     "@faker-js/faker": "^8.0.2",

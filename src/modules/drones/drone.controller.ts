@@ -20,10 +20,6 @@ export class DroneController {
     return this.droneService.listDrones()
   }
 
-  /**
-   * Registers a drone in the system
-   * @param createDroneDto
-   */
   @Post(DroneRoutes.POST_DRONE)
   registerDrone(@Body() createDroneDto: CreateDroneDto) {
     return this.droneService

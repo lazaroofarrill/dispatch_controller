@@ -7,6 +7,7 @@ import {
   minioClient,
   S3_BUCKET_TOKEN,
 } from '../src/common/adapters/storage/minio/minio-client'
+import { createAppServer } from '../src/common/create-app-server'
 
 export const scaffoldTests = () => {
   const dataSource = Container.get(DataSource)
@@ -48,10 +49,7 @@ export const scaffoldTests = () => {
 
     await cleanUpS3()
 
-    const app = express()
-    app.use(typeormTransactionMiddleware)
-    app.use(appRouter)
-    return app
+    return createAppServer()
   }
 
   return { createServer, cleanUpS3 }
