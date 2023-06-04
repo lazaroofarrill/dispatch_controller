@@ -7,7 +7,7 @@ import { GetMedicamentDto } from './dtos/get-medicament.dto'
 import { validateOutput } from '../../common/validation/validator'
 import { UpdateMedicamentDto } from './dtos/update-medicament.dto'
 
-@Tags('medicaments')
+@Tags('Medicaments')
 @Route('medicaments')
 @Service()
 export class MedicamentController {

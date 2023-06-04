@@ -9,7 +9,7 @@ import { GetBatteryLevelDto } from './dtos/get-battery-level.dto'
 import { UpdateDroneDto } from './dtos/update-drone.dto'
 import { GetDroneLoadedItemsDto } from './dtos/get-drone-loaded-items.dto'
 
-@Tags('drones')
+@Tags('Drones')
 @Route('drones')
 @Service()
 export class DroneController {

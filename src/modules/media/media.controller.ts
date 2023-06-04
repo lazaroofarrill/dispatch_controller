@@ -3,7 +3,7 @@ import { MediaService } from './media.service'
 import { Get, Query, Route, Tags } from 'tsoa'
 import { MediaRoutes } from './constants/media.routes'
 
-@Tags('Media Endpoints')
+@Tags('Media')
 @Route('media')
 @Service()
 export class MediaController {
