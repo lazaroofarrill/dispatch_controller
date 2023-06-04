@@ -93,7 +93,7 @@ export class InMemoryDroneRepository extends DroneRepository {
     )
   }
 
-  unloadItem(droneId: string, medicamentId: string): Promise<boolean> {
+  unloadItem(_droneId: string, _medicamentId: string): Promise<boolean> {
     throw new HttpException('Method not implemented') //TODO
   }
 
@@ -101,11 +101,14 @@ export class InMemoryDroneRepository extends DroneRepository {
     throw new HttpException('Not implemented') //TODO
   }
 
-  removeDrone(droneId: string): Promise<void> {
+  removeDrone(_droneId: string): Promise<void> {
     throw new HttpException('Not implemented') //TODO
   }
 
-  updateDrone(droneId: string, updateDroneDto: UpdateDroneDto): Promise<Drone> {
+  updateDrone(
+    _droneId: string,
+    _updateDroneDto: UpdateDroneDto
+  ): Promise<Drone> {
     throw new HttpException('Not implemented') //TODO
   }
 }

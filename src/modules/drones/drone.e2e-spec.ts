@@ -43,7 +43,6 @@ it('should allow listing all drones', async () => {
 })
 
 it('should allow updating a drone', async () => {
-  const {} = createDroneDtoFake()
   const createDroneDto: CreateDroneDto = createDroneDtoFake()
 
   const { body: createdDrone } = await request(app)

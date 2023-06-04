@@ -91,12 +91,13 @@ export class TypeormDroneRepository extends DroneRepository {
   }
 
   async unloadItem(droneId: string, medicamentId: string) {
-    let droneMedicamentJoin = await this.droneMedicamentJoinRepository.findOne({
-      where: {
-        droneId,
-        medicamentId,
-      },
-    })
+    const droneMedicamentJoin =
+      await this.droneMedicamentJoinRepository.findOne({
+        where: {
+          droneId,
+          medicamentId,
+        },
+      })
 
     if (!droneMedicamentJoin) {
       throw new BadRequestException('This item is not loaded in the drone')

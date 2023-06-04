@@ -21,13 +21,13 @@ export class InMemoryMedicamentRepository extends MedicamentRepository {
     return medicament
   }
 
-  deleteMedicament(medicamentId: string): Promise<void> {
+  deleteMedicament(_medicamentId: string): Promise<void> {
     throw new HttpException('Not implemented') //TODO
   }
 
   updateMedicament(
-    medicamentId: string,
-    updateMedicamentDto: UpdateMedicamentDto
+    _medicamentId: string,
+    _updateMedicamentDto: UpdateMedicamentDto
   ): Promise<Medicament> {
     throw new HttpException('Not implemented') //TODO
   }
