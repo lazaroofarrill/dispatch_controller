@@ -1,15 +1,21 @@
 import { Service } from 'typedi'
 import { MediaService } from './media.service'
+import { Get, Query, Route, Tags } from 'tsoa'
+import { MediaRoutes } from './constants/media.routes'
 
+@Tags('Media Endpoints')
+@Route('media')
 @Service()
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
-  async getUploadUrl(key?: string): Promise<{ url: string }> {
-    return this.mediaService.getUploadUrl(key)
+  @Get(MediaRoutes.GET_UPLOAD_URL)
+  async getUploadUrl(@Query() mediaId?: string): Promise<{ url: string }> {
+    return this.mediaService.getUploadUrl(mediaId)
   }
 
-  async getPublicUrl(key: string): Promise<{ url: string }> {
-    return this.mediaService.getPublicUrl(key)
+  @Get(MediaRoutes.GET_PUBLIC_URL)
+  async getPublicUrl(mediaId: string): Promise<{ url: string }> {
+    return this.mediaService.getPublicUrl(mediaId)
   }
 }
