@@ -3,8 +3,8 @@ POST {{host}}/drones
 Content-Type: application/json
 
 {
-  "serialNumber": "1234 lol",
-  "weightLimit": 600,
+  "serialNumber": "drone2",
+  "weightLimit": 400,
   "state": "IDLE",
   "model": "Lightweight",
   "batteryCapacity": 90

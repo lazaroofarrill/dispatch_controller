@@ -15,7 +15,7 @@ export class DroneEntity implements Drone {
   @Column({ type: 'enum', enum: DroneModelEnum })
   model: DroneModelEnum
 
-  @Column('varchar')
+  @Column('varchar', { unique: true })
   serialNumber: string
 
   @Column({ type: 'enum', enum: DroneStateEnum })

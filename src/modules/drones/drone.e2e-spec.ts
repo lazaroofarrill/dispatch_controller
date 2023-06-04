@@ -3,13 +3,15 @@ import express from 'express'
 import request from 'supertest'
 import { randomUUID } from 'crypto'
 import { CreateDroneDto } from './dtos/create-drone.dto'
-import { DroneModelEnum } from './enums/drone-model.enum'
-import { DroneStateEnum } from './enums/drone-state.enum'
 import { CreateMedicamentDto } from '../medicaments/dtos/create-medicament.dto'
-import { createDroneDtoFake } from '../../../tests/fixtures/fakes'
+import {
+  createDroneDtoFake,
+  createMedicamentDtoFake,
+} from '../../../tests/fixtures/fakes'
 import { UpdateDroneDto } from './dtos/update-drone.dto'
 import { faker } from '@faker-js/faker'
 import { GetDroneDto } from './dtos/get-drone-dto'
+import { DroneStateEnum } from './enums/drone-state.enum'
 
 const { createServer } = scaffoldTests()
 
@@ -17,6 +19,25 @@ let app: express.Application
 
 beforeAll(async () => {
   app = await createServer()
+})
+
+it('should allow creating a drone', async () => {
+  const createDroneDto: CreateDroneDto = createDroneDtoFake()
+
+  await request(app).post('/drones/').send(createDroneDto).expect(201)
+})
+
+it('should fail to create a drone with duplicated serial number', async () => {
+  const createDroneDto: CreateDroneDto = createDroneDtoFake()
+  const createDroneDto2: CreateDroneDto = createDroneDtoFake()
+  createDroneDto2.serialNumber = createDroneDto.serialNumber
+
+  await request(app).post('/drones/').send(createDroneDto).expect(201)
+  await request(app)
+    .post('/drones/')
+    .send(createDroneDto2)
+    .expect(400)
+    .expect({ status: 400, message: 'Unique key constraint failed' })
 })
 
 it('should allow listing all drones', async () => {
@@ -65,6 +86,31 @@ it('should allow updating a drone', async () => {
   })
 })
 
+it("should fail updating a drone's serial number to an existing one", async () => {
+  const createDroneDto: CreateDroneDto = createDroneDtoFake()
+  const createDroneDto2: CreateDroneDto = createDroneDtoFake()
+
+  const { body: createdDrone1 } = await request(app)
+    .post('/drones/')
+    .send(createDroneDto)
+    .expect(201)
+
+  const { body: createdDrone2 } = await request(app)
+    .post('/drones/')
+    .send(createDroneDto2)
+    .expect(201)
+
+  const updateDroneDto: UpdateDroneDto = {
+    serialNumber: createdDrone2.serialNumber,
+  }
+
+  await request(app)
+    .patch(`/drones/${createdDrone1.id}`)
+    .send(updateDroneDto)
+    .expect(400)
+    .expect({ status: 400, message: 'Unique key constraint failed' })
+})
+
 it('should allow removing a drone', async () => {
   const createDroneDto = createDroneDtoFake()
 
@@ -97,12 +143,12 @@ it('should fail when sending non existent drone id to load item', async () => {
 })
 
 it('item load failures', async () => {
+  //Create drone with battery capacity below 25%
   const createDroneDto: CreateDroneDto = {
-    batteryCapacity: 24,
-    model: DroneModelEnum.Lightweight,
-    serialNumber: '1234',
+    ...createDroneDtoFake(),
     state: DroneStateEnum.IDLE,
     weightLimit: 500,
+    batteryCapacity: 24,
   }
 
   const { body: createdDrone } = await request(app)
@@ -110,12 +156,7 @@ it('item load failures', async () => {
     .send(createDroneDto)
     .expect(201)
 
-  const createMedicamentDto: CreateMedicamentDto = {
-    code: 'COV1',
-    image: 'lol',
-    name: 'COV1',
-    weight: 150,
-  }
+  const createMedicamentDto: CreateMedicamentDto = createMedicamentDtoFake()
 
   const { body: createdMedicament } = await request(app)
     .post('/medicaments')
@@ -131,11 +172,7 @@ it('item load failures', async () => {
       message: "Drone can't be loaded when the battery is below 25%",
     })
 
-  const createDrone2Dto: CreateDroneDto = {
-    ...createDroneDto,
-    state: DroneStateEnum.DELIVERED,
-    batteryCapacity: 90,
-  }
+  const createDrone2Dto: CreateDroneDto = createDroneDtoFake()
 
   const { body: createdDrone2 } = await request(app)
     .post('/drones')

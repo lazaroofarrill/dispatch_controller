@@ -12,6 +12,7 @@ import {
 } from '../../../common/exceptions/HttpExceptions'
 import { getAsyncRepo } from '../../../common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
 import { UpdateDroneDto } from '../dtos/update-drone.dto'
+import { uniqueConstraintHandler } from '../../../common/adapters/storage/typeorm/error-handling/unique-constraint.handler'
 
 @Service()
 export class TypeormDroneRepository extends DroneRepository {
@@ -88,6 +89,7 @@ export class TypeormDroneRepository extends DroneRepository {
         }
         return drone.toDrone()
       })
+      .catch((err) => uniqueConstraintHandler(err))
   }
 
   async unloadItem(droneId: string, medicamentId: string) {
@@ -128,6 +130,7 @@ export class TypeormDroneRepository extends DroneRepository {
         }
         return result.toDrone()
       })
+      .catch((err) => uniqueConstraintHandler(err))
   }
 
   async findAll(): Promise<Drone[]> {
