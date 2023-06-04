@@ -14,6 +14,7 @@ import { GetBatteryLevelDto } from './dtos/get-battery-level.dto'
 import { DroneRepository } from './repositories/drone-repository'
 import { DroneStateEnum } from './enums/drone-state.enum'
 import { MedicamentRepository } from '../medicaments/repositories/medicament.repository'
+import { UpdateDroneDto } from './dtos/update-drone.dto'
 
 @Service()
 export class DroneService {
@@ -124,5 +125,20 @@ export class DroneService {
     }
 
     return this.droneRepository.unloadItem(droneId, medicamentId)
+  }
+
+  async updateDrone(
+    droneId: string,
+    updateDroneDto: UpdateDroneDto
+  ): Promise<Drone> {
+    return this.droneRepository.updateDrone(droneId, updateDroneDto)
+  }
+
+  async listDrones() {
+    return this.droneRepository.findAll()
+  }
+
+  removeDrone(droneId: string) {
+    return this.droneRepository.removeDrone(droneId)
   }
 }

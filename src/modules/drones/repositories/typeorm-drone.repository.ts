@@ -11,6 +11,7 @@ import {
   InternalServerError,
 } from '../../../common/exceptions/HttpExceptions'
 import { getAsyncRepo } from '../../../common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
+import { UpdateDroneDto } from '../dtos/update-drone.dto'
 
 @Service()
 export class TypeormDroneRepository extends DroneRepository {
@@ -114,6 +115,31 @@ export class TypeormDroneRepository extends DroneRepository {
     }
 
     return true
+  }
+
+  updateDrone(droneId: string, updateDroneDto: UpdateDroneDto): Promise<Drone> {
+    return this.droneRepository
+      .update(droneId, updateDroneDto)
+      .then(() => this.droneRepository.findOne({ where: { id: droneId } }))
+      .then((result) => {
+        if (!result) {
+          throw new BadRequestException('Drone not found')
+        }
+        return result.toDrone()
+      })
+  }
+
+  async findAll(): Promise<Drone[]> {
+    return this.droneRepository
+      .find()
+      .then((result) => result.map((r) => r.toDrone()))
+  }
+
+  async removeDrone(droneId: string): Promise<void> {
+    await this.droneMedicamentJoinRepository
+      .find({ where: { droneId } })
+      .then((results) => this.droneMedicamentJoinRepository.remove(results))
+    return this.droneRepository.delete({ id: droneId }).then(() => undefined)
   }
 
   private get droneRepository(): Repository<DroneEntity> {

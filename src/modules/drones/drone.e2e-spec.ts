@@ -6,6 +6,10 @@ import { CreateDroneDto } from './dtos/create-drone.dto'
 import { DroneModelEnum } from './enums/drone-model.enum'
 import { DroneStateEnum } from './enums/drone-state.enum'
 import { CreateMedicamentDto } from '../medicaments/dtos/create-medicament.dto'
+import { createDroneDtoFake } from '../../../tests/fixtures/create-drone-dto.fake'
+import { UpdateDroneDto } from './dtos/update-drone.dto'
+import { faker } from '@faker-js/faker'
+import { GetDroneDto } from './dtos/get-drone-dto'
 
 const { createServer } = scaffoldTests()
 
@@ -13,6 +17,64 @@ let app: express.Application
 
 beforeAll(async () => {
   app = await createServer()
+})
+
+it('should allow listing all drones', async () => {
+  const createDroneDtos = new Array(5).fill(0).map(() => createDroneDtoFake())
+
+  const createdDrones: GetDroneDto[] = await Promise.all(
+    createDroneDtos.map((createDto) =>
+      request(app)
+        .post('/drones/')
+        .send(createDto)
+        .expect(201)
+        .then(({ body }) => body)
+    )
+  )
+
+  const {
+    body: listedDrones,
+  }: {
+    body: GetDroneDto[]
+  } = await request(app).get('/drones/').expect(200)
+  expect(listedDrones.sort((a, b) => a.id.localeCompare(b.id))).toEqual(
+    createdDrones.sort((a, b) => a.id.localeCompare(b.id))
+  )
+})
+
+it('should allow updating a drone', async () => {
+  const {} = createDroneDtoFake()
+  const createDroneDto: CreateDroneDto = createDroneDtoFake()
+
+  const { body: createdDrone } = await request(app)
+    .post('/drones/')
+    .send(createDroneDto)
+    .expect(201)
+
+  const updateDroneDto: UpdateDroneDto = {
+    serialNumber: faker.string.alpha({ length: { min: 1, max: 100 } }),
+  }
+
+  const { body: updatedDrone } = await request(app)
+    .patch(`/drones/${createdDrone.id}`)
+    .send(updateDroneDto)
+    .expect(200)
+
+  expect(updatedDrone).toEqual({
+    ...createdDrone,
+    ...updateDroneDto,
+  })
+})
+
+it('should allow removing a drone', async () => {
+  const createDroneDto = createDroneDtoFake()
+
+  const { body: createdDrone } = await request(app)
+    .post('/drones/')
+    .send(createDroneDto)
+    .expect(201)
+
+  await request(app).delete(`/drones/${createdDrone.id}`).expect(204)
 })
 
 it('should fail when checking the battery of a drone that does not exist', async () => {

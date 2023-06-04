@@ -13,7 +13,14 @@ droneRouter.get(DroneRoutes.GET_AVAILABLE, (req, res, next) =>
     .catch((err) => next(err))
 )
 
-droneRouter.post(DroneRoutes.POST_REGISTER, (req, res, next) =>
+droneRouter.get(DroneRoutes.GET_DRONES, (req, res, next) =>
+  droneController
+    .listDrones()
+    .then((result) => res.send(result))
+    .catch((err) => next(err))
+)
+
+droneRouter.post(DroneRoutes.POST_DRONE, (req, res, next) =>
   droneController
     .registerDrone(req.body)
     .then((result) => {
@@ -48,6 +55,20 @@ droneRouter.get(DroneRoutes.GET_ITEMS, (req, res, next) =>
   droneController
     .checkLoadedItems(req.params.droneId)
     .then((result) => res.send(result))
+    .catch((err) => next(err))
+)
+
+droneRouter.patch(DroneRoutes.PATCH_UPDATE_DRONE, (req, res, next) =>
+  droneController
+    .updateDrone(req.params.droneId, req.body)
+    .then((result) => res.send(result))
+    .catch((err) => next(err))
+)
+
+droneRouter.delete(DroneRoutes.DELETE_DRONE, (req, res, next) =>
+  droneController
+    .removeDrone(req.params.droneId)
+    .then(() => res.status(204) && res.send())
     .catch((err) => next(err))
 )
 

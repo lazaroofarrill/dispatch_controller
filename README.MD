@@ -58,7 +58,7 @@ Run the following command.
 
 `yarn test`
 
-### Api docs
+## Api docs
 
 You can access the swagger description in the
 endpoint `/docs`.

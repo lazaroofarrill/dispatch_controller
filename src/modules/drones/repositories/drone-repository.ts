@@ -1,5 +1,6 @@
 import { Drone } from '../models/drone.model'
 import { Medicament } from '../../medicaments/models/medicament.model'
+import { UpdateDroneDto } from '../dtos/update-drone.dto'
 
 export abstract class DroneRepository {
   abstract save(drone: Drone): Promise<Drone>
@@ -18,4 +19,13 @@ export abstract class DroneRepository {
   >
 
   abstract unloadItem(droneId: string, medicamentId: string): Promise<boolean>
+
+  abstract updateDrone(
+    droneId: string,
+    updateDroneDto: UpdateDroneDto
+  ): Promise<Drone>
+
+  abstract findAll(): Promise<Drone[]>
+
+  abstract removeDrone(droneId: string): Promise<void>
 }
