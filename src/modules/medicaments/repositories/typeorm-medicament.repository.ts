@@ -3,8 +3,12 @@ import { Medicament } from '../models/medicament.model'
 import { Repository } from 'typeorm'
 import { MedicamentEntity } from '../../../common/adapters/storage/typeorm/entities/medicament.entity'
 import { Service } from 'typedi'
-import { InternalServerError } from '../../../common/exceptions/HttpExceptions'
+import {
+  BadRequestException,
+  InternalServerError,
+} from '../../../common/exceptions/HttpExceptions'
 import { getAsyncRepo } from '../../../common/adapters/storage/typeorm/middlewares/typeorm-transaction-middleware'
+import { UpdateMedicamentDto } from '../dtos/update-medicament.dto'
 
 @Service()
 export class TypeormMedicamentRepository extends MedicamentRepository {
@@ -34,6 +38,29 @@ export class TypeormMedicamentRepository extends MedicamentRepository {
         }
         return medicament.toMedicament()
       })
+  }
+
+  async updateMedicament(
+    medicamentId: string,
+    updateMedicamentDto: UpdateMedicamentDto
+  ): Promise<Medicament> {
+    return this.medicamentRepository
+      .update({ id: medicamentId }, updateMedicamentDto)
+      .then(() =>
+        this.medicamentRepository.findOne({ where: { id: medicamentId } })
+      )
+      .then((result) => {
+        if (!result) {
+          throw new BadRequestException('Medicament not found')
+        }
+        return result.toMedicament()
+      })
+  }
+
+  async deleteMedicament(medicamentId: string): Promise<void> {
+    return this.medicamentRepository
+      .delete({ id: medicamentId })
+      .then(() => undefined)
   }
 
   private get medicamentRepository(): Repository<MedicamentEntity> {

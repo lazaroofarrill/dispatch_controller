@@ -5,6 +5,7 @@ import { Drone } from '../models/drone.model'
 import { HttpException } from '../../../common/exceptions/HttpExceptions'
 import { MedicamentRepository } from '../../medicaments/repositories/medicament.repository'
 import { Medicament } from '../../medicaments/models/medicament.model'
+import { UpdateDroneDto } from '../dtos/update-drone.dto'
 
 const droneStorage: Record<string, Drone> = {}
 
@@ -94,5 +95,17 @@ export class InMemoryDroneRepository extends DroneRepository {
 
   unloadItem(droneId: string, medicamentId: string): Promise<boolean> {
     throw new HttpException('Method not implemented') //TODO
+  }
+
+  findAll(): Promise<Drone[]> {
+    throw new HttpException('Not implemented') //TODO
+  }
+
+  removeDrone(droneId: string): Promise<void> {
+    throw new HttpException('Not implemented') //TODO
+  }
+
+  updateDrone(droneId: string, updateDroneDto: UpdateDroneDto): Promise<Drone> {
+    throw new HttpException('Not implemented') //TODO
   }
 }

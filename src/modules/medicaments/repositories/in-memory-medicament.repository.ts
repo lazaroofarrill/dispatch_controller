@@ -1,6 +1,8 @@
 import { MedicamentRepository } from './medicament.repository'
 import { Service } from 'typedi'
 import { Medicament } from '../models/medicament.model'
+import { HttpException } from '../../../common/exceptions/HttpExceptions'
+import { UpdateMedicamentDto } from '../dtos/update-medicament.dto'
 
 const medicamentStorage: Record<string, Medicament> = {}
 
@@ -17,5 +19,16 @@ export class InMemoryMedicamentRepository extends MedicamentRepository {
   async save(medicament: Medicament): Promise<Medicament> {
     medicamentStorage[medicament.id] = medicament
     return medicament
+  }
+
+  deleteMedicament(medicamentId: string): Promise<void> {
+    throw new HttpException('Not implemented') //TODO
+  }
+
+  updateMedicament(
+    medicamentId: string,
+    updateMedicamentDto: UpdateMedicamentDto
+  ): Promise<Medicament> {
+    throw new HttpException('Not implemented') //TODO
   }
 }
