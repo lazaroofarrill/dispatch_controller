@@ -4,10 +4,10 @@ import { CreateDroneDto } from './dtos/create-drone.dto'
 import { validateOutput } from '../../common/validation/validator'
 import { GetDroneDto } from './dtos/get-drone-dto'
 import { Body, Delete, Get, Patch, Post, Route, Tags } from 'tsoa'
-import { Medicament } from '../medicaments/models/medicament.model'
 import { DroneRoutes } from './constants/drone.routes'
 import { GetBatteryLevelDto } from './dtos/get-battery-level.dto'
 import { UpdateDroneDto } from './dtos/update-drone.dto'
+import { GetDroneLoadedItemsDto } from './dtos/get-drone-loaded-items.dto'
 
 @Tags('drones')
 @Route('drones')
@@ -17,7 +17,9 @@ export class DroneController {
 
   @Get(DroneRoutes.GET_DRONES)
   async listDrones() {
-    return this.droneService.listDrones()
+    return this.droneService
+      .listDrones()
+      .then((drones) => validateOutput(GetDroneDto, drones))
   }
 
   @Post(DroneRoutes.POST_DRONE)
@@ -28,13 +30,16 @@ export class DroneController {
   }
 
   @Get(DroneRoutes.GET_ITEMS)
-  checkLoadedItems(droneId: string): Promise<
-    {
-      medicament: Medicament
-      quantity: number
-    }[]
-  > {
-    return this.droneService.checkLoadedItems(droneId)
+  checkLoadedItems(droneId: string): Promise<GetDroneLoadedItemsDto[]> {
+    return this.droneService
+      .checkLoadedItems(droneId)
+      .then(
+        async (result) =>
+          (await validateOutput(
+            GetDroneLoadedItemsDto,
+            result
+          )) as GetDroneLoadedItemsDto[]
+      )
   }
 
   @Post(DroneRoutes.POST_ADD_ITEM)
