@@ -172,7 +172,17 @@ it('item load failures', async () => {
       message: "Drone can't be loaded when the battery is below 25%",
     })
 
-  const createDrone2Dto: CreateDroneDto = createDroneDtoFake()
+  const createDrone2Dto: CreateDroneDto = {
+    ...createDroneDtoFake(),
+    state: faker.helpers.arrayElement([
+      DroneStateEnum.DELIVERED,
+      DroneStateEnum.RETURNING,
+      DroneStateEnum.DELIVERING,
+      DroneStateEnum.LOADING,
+      DroneStateEnum.LOADED,
+    ]),
+    batteryCapacity: faker.number.int({ min: 25, max: 100 }),
+  }
 
   const { body: createdDrone2 } = await request(app)
     .post('/drones')

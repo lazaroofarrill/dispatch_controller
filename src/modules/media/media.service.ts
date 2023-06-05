@@ -19,11 +19,8 @@ export class MediaService {
         throw new BadRequestException('key must be a valid uuid')
       }
     }
-    const url = await minioClient
-      .presignedUrl('PUT', this.bucket, key)
-      .catch((err) => {
-        throw err
-      })
+    const url = await minioClient.presignedUrl('PUT', this.bucket, key)
+
     return {
       key,
       url,

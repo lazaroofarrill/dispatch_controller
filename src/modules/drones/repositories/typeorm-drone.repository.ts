@@ -107,8 +107,6 @@ export class TypeormDroneRepository extends DroneRepository {
 
     if (droneMedicamentJoin.quantity > 0) {
       droneMedicamentJoin.quantity--
-    } else {
-      throw new BadRequestException('Quantity cannot be lower than 0')
     }
 
     if (droneMedicamentJoin.quantity === 0) {
@@ -126,7 +124,9 @@ export class TypeormDroneRepository extends DroneRepository {
       .then(() => this.droneRepository.findOne({ where: { id: droneId } }))
       .then((result) => {
         if (!result) {
-          throw new BadRequestException('Drone not found')
+          throw new InternalServerError(
+            'Invalid state. The updated drone must exist.'
+          )
         }
         return result.toDrone()
       })
